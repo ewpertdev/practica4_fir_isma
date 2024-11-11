@@ -26,6 +26,9 @@ public class Bruteforce {
     private static void buscarRangoPassword(int startChar, int endChar, byte[] targetHash){
         StringBuilder password = new StringBuilder();
         for (int i = startChar; i < endChar && !found.get(); i++) {
+            password.setLength(0);
+            password.append((char)('a' + i));
+            probarTodasCombinaciones(password, 1, targetHash);
 
         }
     }
