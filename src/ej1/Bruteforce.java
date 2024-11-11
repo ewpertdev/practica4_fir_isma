@@ -65,7 +65,8 @@ public class Bruteforce {
 
     public static void main (String[] args) {
         long startTime = System.currentTimeMillis();
-
+        
+         byte[] destinoHashBytes = hexStringToArrayDeBytes(palabras);
 
 
 
