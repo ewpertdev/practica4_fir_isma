@@ -75,8 +75,13 @@ public class Bruteforce {
         for(int i =0; i<26;i+=longitudPartes){
             int iniciarChar = i;
             int finChar = Math.min(i + longitudPartes,26);
+             ejecutor.submit(()-> buscarRangoPassword(iniciarChar,finChar,destinoHashBytes));
         }
-
+        ejecutor.shutdown();
+        while(!ejecutor.isTerminated()){
+            Thread.yield();
+        }
+    }
     }
 
 
