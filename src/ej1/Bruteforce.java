@@ -23,6 +23,10 @@ public class Bruteforce {
         }
     }
 
+    private static void buscarRangoPassword(){
+
+    }
+
     private static void probarTodasCombinaciones(StringBuilder actual, int posicion, byte[] targetHash) {
         if (found.get()) return;
 
