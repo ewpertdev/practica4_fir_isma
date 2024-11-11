@@ -23,8 +23,11 @@ public class Bruteforce {
         }
     }
 
-    private static void buscarRangoPassword(){
+    private static void buscarRangoPassword(int startChar, int endChar, byte[] targetHash){
+        StringBuilder password = new StringBuilder();
+        for (int i = startChar; i < endChar && !found.get(); i++) {
 
+        }
     }
 
     private static void probarTodasCombinaciones(StringBuilder actual, int posicion, byte[] targetHash) {
@@ -58,10 +61,12 @@ public class Bruteforce {
 
 
     public static void main (String[] args) {
+        long startTime = System.currentTimeMillis();
 
 
 
-        }
+
+    }
 
 
 }
