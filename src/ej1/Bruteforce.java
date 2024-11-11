@@ -73,7 +73,8 @@ public class Bruteforce {
         int longitudPartes = 26/numHilos+1;
 
         for(int i =0; i<26;i+=longitudPartes){
-            
+            int iniciarChar = i;
+            int finChar = Math.min(i + longitudPartes,26);
         }
 
     }
