@@ -67,6 +67,8 @@ public class Bruteforce {
         long startTime = System.currentTimeMillis();
         
         byte[] destinoHashBytes = hexStringToArrayDeBytes(palabras);
+
+        ExecutorService ejecutor = Executors.newFixedThreadPool(numHilos);
         
         int longitudPartes = 26/numHilos+1;
 
