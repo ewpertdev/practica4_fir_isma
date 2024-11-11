@@ -3,6 +3,7 @@ package ej1;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Bruteforce {
@@ -22,6 +23,24 @@ public class Bruteforce {
         }
     }
 
+    private static void probarTodasCombinaciones(StringBuilder actual, int posicion, byte[] targetHash) {
+        if (found.get()) return;
+
+        if (posicion == longitudPalabra) {
+            byte[] currentHash = obtenerHash(actual.toString());
+            if (Arrays.equals(currentHash, targetHash)) {
+                passwordEncontrada = actual.toString();
+                found.set(true);
+            }
+            return;
+        }
+
+        for (char c = 'a'; c <= 'z' && !found.get(); c++) {
+            actual.append(c);
+            probarTodasCombinaciones(actual, posicion + 1, targetHash);
+            actual.setLength(actual.length() - 1);
+        }
+    }
     private static byte[] hexStringToArrayDeBytes(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
