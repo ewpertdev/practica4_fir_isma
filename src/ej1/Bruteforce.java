@@ -4,6 +4,8 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Bruteforce {
@@ -23,11 +25,11 @@ public class Bruteforce {
         }
     }
 
-    private static void buscarRangoPassword(int startChar, int endChar, byte[] targetHash){
+    private static void buscarRangoPassword(int startChar, int endChar, byte[] targetHash) {
         StringBuilder password = new StringBuilder();
         for (int i = startChar; i < endChar && !found.get(); i++) {
             password.setLength(0);
-            password.append((char)('a' + i));
+            password.append((char) ('a' + i));
             probarTodasCombinaciones(password, 1, targetHash);
 
         }
@@ -51,39 +53,44 @@ public class Bruteforce {
             actual.setLength(actual.length() - 1);
         }
     }
+
     private static byte[] hexStringToArrayDeBytes(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
         for (int i = 0; i < len; i += 2) {
             data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i+1), 16));
+                    + Character.digit(s.charAt(i + 1), 16));
         }
         return data;
     }
 
 
-
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         long startTime = System.currentTimeMillis();
-        
+
         byte[] destinoHashBytes = hexStringToArrayDeBytes(palabras);
 
         ExecutorService ejecutor = Executors.newFixedThreadPool(numHilos);
-        
-        int longitudPartes = 26/numHilos+1;
 
-        for(int i =0; i<26;i+=longitudPartes){
+        int longitudPartes = 26 / numHilos + 1;
+
+        for (int i = 0; i < 26; i += longitudPartes) {
             int iniciarChar = i;
-            int finChar = Math.min(i + longitudPartes,26);
-             ejecutor.submit(()-> buscarRangoPassword(iniciarChar,finChar,destinoHashBytes));
+            int finChar = Math.min(i + longitudPartes, 26);
+            ejecutor.submit(() -> buscarRangoPassword(iniciarChar, finChar, destinoHashBytes));
         }
         ejecutor.shutdown();
-        while(!ejecutor.isTerminated()){
+        while (!ejecutor.isTerminated()) {
             Thread.yield();
         }
-    }
-    }
+        long endTime = System.currentTimeMillis();
 
-
+        if (passwordEncontrada != null) {
+            System.out.println("Contraseña encontrada " + passwordEncontrada);
+        } else {
+            System.out.println("Contraseña no encontrada");
+        }
+        System.out.println("Tiempo que tardó: " + (endTime - startTime) + "ms");
+    }
 }
 
