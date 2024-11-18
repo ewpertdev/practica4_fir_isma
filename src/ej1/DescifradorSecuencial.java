@@ -39,6 +39,7 @@ public class DescifradorSecuencial {
         System.out.println("Tiempo de ejecución: " + tiempoTotal + "ms");
     }
     
+    // Método que permite probar todas las combinaciones.
     private void probarCombinaciones(StringBuilder actual, int longitud, byte[] hashObjetivo) {
         // Si se ha encontrado la contraseña, se devuelve.
         if (passwordEncontrada != null) return;
@@ -52,6 +53,7 @@ public class DescifradorSecuencial {
             return;
         }
         
+        // Se recorre el alfabeto para probar todas las combinaciones.
         for (char c = 'a'; c <= 'z' && passwordEncontrada == null; c++) {
             actual.append(c);
             probarCombinaciones(actual, longitud, hashObjetivo);
