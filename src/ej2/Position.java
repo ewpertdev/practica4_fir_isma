@@ -44,6 +44,9 @@ public class Position {
     @Override
     public int hashCode() {
         // Se devuelve el hashcode de la posición.
+        // Es return 31 * x + y porque se multiplica por 31 para que el hashcode sea más único. 
+        // Hemos cogido 31 porque es un número primo, podria ser cualquier número. 
+        // Si no fuera primo, dos posiciones distintas podrían tener el mismo hashcode.
         return 31 * x + y;
     }
 } 

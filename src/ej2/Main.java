@@ -35,5 +35,11 @@ public class Main {
     public static void main(String[] args) {
         // Se crea el terreno.
         terrain = new Terrain(TERRAIN_SIZE);
+        // Probamos la posición (0,0).
+        Position testPos = new Position(0, 0);
+        // Se obtiene la celda de la posición (0,0).
+        Cell cell = terrain.getCell(testPos);
+        // Se imprime el contenido de la celda de la posición (0,0).
+        System.out.println("Cell at (0,0) is: " + cell.getContent());
     }
 }
