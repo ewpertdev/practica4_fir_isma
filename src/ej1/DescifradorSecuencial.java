@@ -5,6 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+/* TODO: Faltaria optimizar esta implementacion y mejorar el manejo de recursos + errores */
 public class DescifradorSecuencial {
     private String passwordEncontrada = null;
     
