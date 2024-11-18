@@ -40,7 +40,7 @@ public class Position {
         return x == position.x && y == position.y;
     }
 
-    // Creamos un método que permite obtener el hashcode de una posición.
+    // Creamos un método que permite obtener el hashcode de una po1sición.
     @Override
     // El método hashCode no lleva ningún parámetro porque no modifica ningún atributo de la clase.
     // Es un método entero, es decir, devuelve un número entero que representa el hashcode de la posición.
