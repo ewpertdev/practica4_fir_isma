@@ -23,10 +23,17 @@ quién ha sido el ganador) o cuando todos los jugadores han encontrado una mina
 difícil al principio pero mucho más cómodo a la larga)
  */
 public class Main {
+    // Creamos un atributo privado estático final que representa el tamaño del terreno.
+    // es final porque no cambia.
+    // es static porque es un atributo de la clase y no de los objetos.
     private static final int TERRAIN_SIZE = 15;
+    // Creamos un atributo privado estático que representa el terreno.
+    // es private porque solo se puede acceder a él desde la clase.
+    // es static porque es un atributo de la clase y no de los objetos.
     private static Terrain terrain;
 
     public static void main(String[] args) {
+        // Se crea el terreno.
         terrain = new Terrain(TERRAIN_SIZE);
     }
 }
