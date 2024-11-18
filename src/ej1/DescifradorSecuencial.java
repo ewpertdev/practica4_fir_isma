@@ -9,15 +9,24 @@ public class DescifradorSecuencial {
     private String passwordEncontrada = null;
     
     public void encontrarPassword(String hashObjetivo, int longitud) {
+        long tiempoInicio = System.currentTimeMillis();
+        
         byte[] hashObjetivoBytes = hexStringToByteArray(hashObjetivo);
         StringBuilder intentoActual = new StringBuilder();
         probarCombinaciones(intentoActual, longitud, hashObjetivoBytes);
         
+        long tiempoFin = System.currentTimeMillis();
+        
+        mostrarResultados(tiempoFin - tiempoInicio);
+    }
+    
+    private void mostrarResultados(long tiempoTotal) {
         if (passwordEncontrada != null) {
             System.out.println("Contraseña encontrada: " + passwordEncontrada);
         } else {
             System.out.println("No se encontró la contraseña");
         }
+        System.out.println("Tiempo de ejecución: " + tiempoTotal + "ms");
     }
     
     private void probarCombinaciones(StringBuilder actual, int longitud, byte[] hashObjetivo) {
