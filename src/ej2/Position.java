@@ -42,6 +42,13 @@ public class Position {
 
     // Creamos un método que permite obtener el hashcode de una posición.
     @Override
+    // El método hashCode no lleva ningún parámetro porque no modifica ningún atributo de la clase.
+    // Es un método entero, es decir, devuelve un número entero que representa el hashcode de la posición.
+    // El hashcode es un número que representa una posición de forma única.
+    // Es necesario implementar el método hashCode porque es necesario para poder usar las posiciones como claves en un HashMap.
+    // Si no se implementa, las posiciones no se pueden usar como claves en un HashMap.
+    // Hashcode significa código hash, es decir, un número que representa una posición de forma única, 
+    // hash es el proceso de convertir un objeto en un número.
     public int hashCode() {
         // Se devuelve el hashcode de la posición.
         // Es return 31 * x + y porque se multiplica por 31 para que el hashcode sea más único. 
