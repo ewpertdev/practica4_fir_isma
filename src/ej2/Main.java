@@ -22,6 +22,10 @@ quién ha sido el ganador) o cuando todos los jugadores han encontrado una mina
 5. Extra: Valora la posibilidad de utilizar un pool de hilos para los jugadores. (Es más
 difícil al principio pero mucho más cómodo a la larga)
  */
+
+ /*TODO:
+  * Implementar la generación de pepitas y minas de forma aleatoria y añadir métodos para manipular el terreno.
+  */
 public class Main {
     // Creamos un atributo privado estático final que representa el tamaño del terreno.
     // es final porque no cambia.

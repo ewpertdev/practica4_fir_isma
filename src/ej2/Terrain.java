@@ -3,6 +3,8 @@ package ej2;
 import java.util.HashMap;
 import java.util.Map;
 
+// TODO: faltaria añadir algunos métodos de utilidad al Terrain
+
 // La clase Terrain representa el terreno del juego, es decir, el tablero.
 public class Terrain {
     // Primero, creamos un atributo privado que es el tamaño del terreno.
