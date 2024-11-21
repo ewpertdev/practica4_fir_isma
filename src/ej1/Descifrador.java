@@ -1,21 +1,30 @@
 package ej1;
 
 public class Descifrador {
+    private static final String HASH_OBJETIVO = 
+        "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79";
+    private static final int LONGITUD_PASSWORD = 4;
+
     public static void main(String[] args) {
-        // Se define el hash objetivo y la longitud de la contraseña.
-        String hash = "b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79";
-        // Se define la longitud de la contraseña.
-        int longitud = 4;
+        System.out.println("=== Descifrador de Contraseñas ===");
+        System.out.println("Hash objetivo: " + HASH_OBJETIVO);
+        System.out.println("Longitud: " + LONGITUD_PASSWORD);
         
-        // Se muestra el inicio de la búsqueda.
-        System.out.println("=== Iniciando búsqueda ===");
-        System.out.println("Hash objetivo: " + hash);
-        System.out.println("Longitud: " + longitud);
+        probarImplementaciones();
+    }
+    
+    private static void probarImplementaciones() {
+        System.out.println("\n=== Prueba Secuencial ===");
+        probarDescifrador(new DescifradorSecuencial());
+        
+        // La versión paralela se habilitará próximamente
+        // System.out.println("\n=== Prueba Paralela ===");
+        // probarDescifrador(new DescifradorParalelo());
+    }
+    
+    private static void probarDescifrador(IDescifrador descifrador) {
+        System.out.println("Usando: " + descifrador.getClass().getSimpleName());
         System.out.println("------------------------");
-        
-        // Se crea una instancia de DescifradorSecuencial.
-        DescifradorSecuencial descifrador = new DescifradorSecuencial();
-        // Se llama al método que permite encontrar la contraseña.
-        descifrador.encontrarPassword(hash, longitud);
+        descifrador.encontrarPassword(HASH_OBJETIVO, LONGITUD_PASSWORD);
     }
 } 
