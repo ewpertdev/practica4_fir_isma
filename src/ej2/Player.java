@@ -94,26 +94,31 @@ public class Player implements Runnable {
 
     // Getters
     /**
+     * Obtiene el identificador único del jugador.
      * @return Identificador del jugador
      */
     public int getId() { return id; }
 
     /**
+     * Obtiene el nombre del jugador.
      * @return Nombre del jugador
      */
     public String getName() { return name; }
 
     /**
+     * Obtiene la posición actual del jugador en el terreno.
      * @return Posición actual del jugador
      */
     public Position getPosition() { return position; }
 
     /**
+     * Obtiene la cantidad de oro recolectado por el jugador.
      * @return Cantidad de oro recolectado
      */
     public int getGoldCount() { return goldCount; }
 
     /**
+     * Verifica si el jugador sigue vivo en el juego.
      * @return true si el jugador está vivo
      */
     public boolean isAlive() { return isAlive; }

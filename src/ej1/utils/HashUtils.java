@@ -12,6 +12,13 @@ import java.security.NoSuchAlgorithmException;
  */
 public class HashUtils {
     /**
+     * Constructor por defecto privado para evitar instanciación.
+     */
+    private HashUtils() {
+        // Constructor privado para evitar instanciación
+    }
+    
+    /**
      * Genera el hash SHA-256 de un texto dado.
      * 
      * @param digest Instancia de MessageDigest a utilizar

@@ -15,6 +15,13 @@ public class Descifrador {
     private static final int LONGITUD_PASSWORD = 4;
 
     /**
+     * Constructor por defecto.
+     */
+    public Descifrador() {
+        // Constructor vacío
+    }
+
+    /**
      * Punto de entrada principal del programa.
      * 
      * @param args Argumentos de línea de comandos (no utilizados)

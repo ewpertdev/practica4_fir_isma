@@ -3,12 +3,19 @@ package ej1.utils;
 import ej1.*;
 
 /**
- * Clase de utilidad para realizar pruebas de rendimiento de los diferentes descifradores.
+ * Clase utilitaria para realizar mediciones de rendimiento.
  * 
  * @author Mohd Firdaus Bin Abdullah
  * @author Ismael Lozano
  */
 public class Benchmark {
+    /**
+     * Constructor por defecto.
+     */
+    public Benchmark() {
+        // Constructor vacío
+    }
+    
     /**
      * Ejecuta una serie de pruebas de rendimiento con diferentes contraseñas.
      */

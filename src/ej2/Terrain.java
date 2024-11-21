@@ -136,7 +136,10 @@ public class Terrain {
 
     // Métodos de acceso y utilidad
     /**
-     * Obtiene la celda en una posición específica.
+     * Obtiene la celda en la posición especificada.
+     * 
+     * @param position La posición de la celda a obtener
+     * @return La celda en la posición especificada
      */
     public Cell getCell(Position position) {
         return grid.get(position);
@@ -144,6 +147,8 @@ public class Terrain {
 
     /**
      * Obtiene el tamaño del terreno.
+     * 
+     * @return El tamaño del terreno (número de celdas por lado)
      */
     public int getSize() {
         return size;
@@ -151,6 +156,9 @@ public class Terrain {
 
     /**
      * Verifica si una posición está dentro de los límites del terreno.
+     * 
+     * @param position La posición a verificar
+     * @return true si la posición es válida dentro del terreno
      */
     public boolean isValidPosition(Position position) {
         return position.getX() >= 0 && position.getX() < size &&
@@ -159,6 +167,9 @@ public class Terrain {
 
     /**
      * Verifica si una celda está vacía.
+     * 
+     * @param pos La posición de la celda a verificar
+     * @return true si la celda está vacía
      */
     public boolean isCellEmpty(Position pos) {
         return getCell(pos).getContent() == CellContent.EMPTY;
@@ -166,6 +177,9 @@ public class Terrain {
 
     /**
      * Establece el contenido de una celda.
+     * 
+     * @param pos La posición de la celda
+     * @param content El nuevo contenido a establecer
      */
     public void setContent(Position pos, CellContent content) {
         getCell(pos).setContent(content);
@@ -173,13 +187,17 @@ public class Terrain {
 
     /**
      * Verifica si quedan pepitas de oro en el terreno.
+     * 
+     * @return true si hay pepitas de oro disponibles
      */
     public boolean hasGoldNuggets() {
         return goldCount.get() > 0;
     }
 
     /**
-     * Verifica si quedan jugadores vivos.
+     * Verifica si quedan jugadores vivos en el juego.
+     * 
+     * @return true si hay al menos un jugador vivo
      */
     public boolean hasAlivePlayers() {
         return alivePlayers.get() > 0;

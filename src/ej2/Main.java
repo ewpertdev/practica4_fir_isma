@@ -8,13 +8,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Clase principal que ejecuta la simulación del juego de búsqueda del tesoro.
- * Gestiona la inicialización del juego, la ejecución de los jugadores y la determinación del ganador.
+ * Clase principal que inicia el juego de búsqueda del tesoro.
  * 
  * @author Mohd Firdaus Bin Abdullah
  * @author Ismael Lozano
  */
 public class Main {
+    /**
+     * Constructor por defecto.
+     */
+    public Main() {
+        // Constructor vacío
+    }
+
     private static final int TERRAIN_SIZE = 15;
     private static final int NUM_PLAYERS = 4;
     private static Terrain terrain;
