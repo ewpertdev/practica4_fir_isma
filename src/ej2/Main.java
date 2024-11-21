@@ -1,49 +1,106 @@
 package ej2;
 
-/*Requerimientos del programa:
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
-1. Implementa la cuadrícula utilizando una estructura de datos de tipo HashMap (donde
-la clave es la posición (x, y) y el valor es la entidad (vacío, pepita, mina, Jugador).
-Puedes utilizar la que consideres mejor. Deberás justificar tu respuesta. Tal vez
-necesites crear una clase Posicion para utilizarla de clave del HashMap, así como
-comparar posiciones.
-
-2. Implementa la clase Jugador. Puedes utilizar un enum para Pepita, y Mina.
-
-3. Cada instancia de Jugador debe ejecutarse en su propio hilo que deberán
-sincronizarse para ir haciendo los movimientos por turnos. No es posible que un
-jugador haya hecho 3 movimientos mientras otro solo ha hecho 1 (Consulta
-CyclingBarrier).
-
-4. La simulación termina cuando se han acabado las pepitas (dando un mensaje de
-quién ha sido el ganador) o cuando todos los jugadores han encontrado una mina
-(dando un mensaje de que nadie ha ganado).
-
-5. Extra: Valora la posibilidad de utilizar un pool de hilos para los jugadores. (Es más
-difícil al principio pero mucho más cómodo a la larga)
+/**
+ * Clase principal que ejecuta la simulación del juego de búsqueda del tesoro.
  */
-
- /*TODO:
-  * Implementar la generación de pepitas y minas de forma aleatoria y añadir métodos para manipular el terreno.
-  */
 public class Main {
-    // Creamos un atributo privado estático final que representa el tamaño del terreno.
-    // es final porque no cambia.
-    // es static porque es un atributo de la clase y no de los objetos.
     private static final int TERRAIN_SIZE = 15;
-    // Creamos un atributo privado estático que representa el terreno.
-    // es private porque solo se puede acceder a él desde la clase.
-    // es static porque es un atributo de la clase y no de los objetos.
+    private static final int NUM_PLAYERS = 4;
     private static Terrain terrain;
+    private static List<Player> players;
+    private static ExecutorService executor;
 
     public static void main(String[] args) {
-        // Se crea el terreno.
-        terrain = new Terrain(TERRAIN_SIZE);
-        // Probamos la posición (0,0).
-        Position testPos = new Position(0, 0);
-        // Se obtiene la celda de la posición (0,0).
-        Cell cell = terrain.getCell(testPos);
-        // Se imprime el contenido de la celda de la posición (0,0).
-        System.out.println("Cell at (0,0) is: " + cell.getContent());
+        System.out.println("=== Juego de Búsqueda del Tesoro ===");
+        initializeGame();
+        runGame();
+        determineWinner();
+    }
+
+    private static void initializeGame() {
+        // Inicializar el terreno y la barrera cíclica
+        terrain = new Terrain(TERRAIN_SIZE, NUM_PLAYERS);
+        CyclicBarrier barrier = new CyclicBarrier(NUM_PLAYERS, () -> {
+            // Esta acción se ejecuta cada vez que todos los jugadores completan un turno
+            System.out.println("\n=== Estado del terreno ===");
+            terrain.printTerrain();
+            try {
+                Thread.sleep(1000); // Pausa para mejor visualización
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        });
+
+        // Crear jugadores
+        players = new ArrayList<>();
+        for (int i = 1; i <= NUM_PLAYERS; i++) {
+            players.add(new Player(i, terrain, barrier));
+        }
+
+        // Inicializar el pool de hilos
+        executor = Executors.newFixedThreadPool(NUM_PLAYERS);
+    }
+
+    private static void runGame() {
+        System.out.println("\nEstado inicial del terreno:");
+        terrain.printTerrain();
+
+        // Iniciar los hilos de los jugadores
+        for (Player player : players) {
+            executor.execute(player);
+        }
+
+        // Esperar a que termine el juego
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(5, TimeUnit.MINUTES)) {
+                System.out.println("El juego ha excedido el tiempo límite!");
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private static void determineWinner() {
+        System.out.println("\n=== Fin del juego ===");
+
+        // Verificar si alguien ganó
+        if (!terrain.hasAlivePlayers()) {
+            System.out.println("¡Todos los jugadores han encontrado minas! No hay ganador.");
+            return;
+        }
+
+        // Encontrar al jugador con más oro
+        Player winner = null;
+        int maxGold = -1;
+
+        for (Player player : players) {
+            if (player.isAlive() && player.getGoldCount() > maxGold) {
+                maxGold = player.getGoldCount();
+                winner = player;
+            }
+            // Mostrar resultados de cada jugador
+            System.out.printf("%s: %d pepitas%s%n", 
+                player.getName(), 
+                player.getGoldCount(),
+                player.isAlive() ? "" : " (eliminado)");
+        }
+
+        // Anunciar ganador
+        if (winner != null) {
+            System.out.println("\n¡" + winner.getName() + " ha ganado con " + 
+                             maxGold + " pepitas de oro!");
+        } else {
+            System.out.println("\nNo hay ganador.");
+        }
     }
 }

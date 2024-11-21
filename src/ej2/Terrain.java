@@ -2,64 +2,166 @@ package ej2;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
-// TODO: faltaria añadir algunos métodos de utilidad al Terrain
-
-// La clase Terrain representa el terreno del juego, es decir, el tablero.
+/**
+ * Representa el terreno del juego donde se desarrolla la búsqueda del tesoro.
+ * Utiliza un ConcurrentHashMap para manejar accesos concurrentes de manera segura.
+ */
 public class Terrain {
-    // Primero, creamos un atributo privado que es el tamaño del terreno.
     private final int size;
-    // Luego, creamos un atributo privado que es la cuadrícula del terreno.
     private final Map<Position, Cell> grid;
+    private final AtomicInteger goldCount;
+    private final AtomicInteger mineCount;
+    private final AtomicInteger alivePlayers;
+    private final Random random;
 
-    // Creamos un constructor que inicializa el terreno.
-    public Terrain(int size) {
+    /**
+     * Constructor que inicializa el terreno con un tamaño específico.
+     *
+     * @param size Tamaño del terreno (cuadrado size x size)
+     * @param numPlayers Número de jugadores para calcular minas y pepitas
+     */
+    public Terrain(int size, int numPlayers) {
         this.size = size;
-        this.grid = new HashMap<>();
+        this.grid = new ConcurrentHashMap<>();
+        this.goldCount = new AtomicInteger(numPlayers * 3); // Triple de pepitas que jugadores
+        this.mineCount = new AtomicInteger(numPlayers / 2); // Mitad de minas que jugadores
+        this.alivePlayers = new AtomicInteger(numPlayers);
+        this.random = new Random();
         initializeTerrain();
+        distributeItems();
     }
 
-    // Creamos un método privado que inicializa el terreno.
     private void initializeTerrain() {
-        // grid significa cuadrícula.
-        // Creamos la cuadrícula del terreno, es decir, un array bidimensional de celdas.
-        // es grid = new Cell[size][size]; porque el terreno es cuadrado, es decir, tiene el mismo número de filas y columnas.
-        // Por qué se pone [size][size] y no [size][size] + 1?
-        // Porque el terreno es cuadrado, es decir, tiene el mismo número de filas y columnas, y la cuadrícula comienza desde 0.
-        // Se pasa size en el parentesis porque size es el tamaño del terreno, es decir, el número de filas y columnas que tiene el terreno.
         for (int i = 0; i < size; i++) {
-            // Se crea un bucle for que recorre todas las columnas de la cuadrícula.
-            // j representa las columnas.
-            // Si j es menor que size, siendo size el tamaño del terreno, se crea una celda en la posición i,j.
             for (int j = 0; j < size; j++) {
-                // Se crea una celda en la posición i,j despues de recorrer todas las columnas y filas.
                 grid.put(new Position(i, j), new Cell());
             }
         }
     }
 
-    // Creamos un método público que permite obtener una celda de la cuadrícula.
-    // No es public void ya que no modifica ningún atributo de la clase.
+    private void distributeItems() {
+        // Distribuir pepitas
+        for (int i = 0; i < goldCount.get(); i++) {
+            placeRandomItem(CellContent.ORE);
+        }
+        
+        // Distribuir minas
+        for (int i = 0; i < mineCount.get(); i++) {
+            placeRandomItem(CellContent.MINE);
+        }
+    }
+
+    private void placeRandomItem(CellContent content) {
+        Position pos;
+        do {
+            int x = random.nextInt(size);
+            int y = random.nextInt(size);
+            pos = new Position(x, y);
+        } while (!isCellEmpty(pos));
+        
+        getCell(pos).setContent(content);
+    }
+
+    /**
+     * Intenta mover un jugador a una nueva posición.
+     *
+     * @param oldPos Posición actual del jugador
+     * @param newPos Nueva posición del jugador
+     * @param player Jugador que se mueve
+     * @return true si el movimiento fue exitoso
+     */
+    public synchronized boolean movePlayer(Position oldPos, Position newPos, Player player) {
+        if (!isValidPosition(newPos)) return false;
+
+        Cell newCell = getCell(newPos);
+        CellContent content = newCell.getContent();
+
+        // Procesar el contenido de la nueva celda
+        switch (content) {
+            case EMPTY:
+                updatePlayerPosition(oldPos, newPos);
+                return true;
+            case ORE:
+                collectGold(player, newPos);
+                updatePlayerPosition(oldPos, newPos);
+                return true;
+            case MINE:
+                handleMine(player, newPos);
+                getCell(oldPos).setContent(CellContent.EMPTY);
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private void updatePlayerPosition(Position oldPos, Position newPos) {
+        getCell(oldPos).setContent(CellContent.EMPTY);
+        getCell(newPos).setContent(CellContent.PLAYER);
+    }
+
+    private void collectGold(Player player, Position pos) {
+        player.incrementGoldCount();
+        goldCount.decrementAndGet();
+        System.out.println(player.getName() + " encontró una pepita de oro!");
+    }
+
+    private void handleMine(Player player, Position pos) {
+        player.die();
+        mineCount.decrementAndGet();
+        alivePlayers.decrementAndGet();
+        getCell(pos).setContent(CellContent.EMPTY);
+    }
+
+    // Métodos de acceso y utilidad
     public Cell getCell(Position position) {
         return grid.get(position);
     }
 
-    // Creamos un método público que permite obtener el tamaño del terreno.
     public int getSize() {
         return size;
     }
 
-    // Creamos un método público que permite saber si una posición es válida.
-    // Es un método booleano, es decir, devuelve true o false para indicar si la posición es válida o no, 
-    // porque se quiere saber si una posición está dentro del terreno o no.
     public boolean isValidPosition(Position position) {
-        // Se devuelve true si la posición es válida, es decir, si la posición está dentro del terreno.
-        // La coordenada x de la posición tiene que ser mayor o igual que 0 y menor que el tamaño del terreno.
         return position.getX() >= 0 && position.getX() < size &&
-                // La coordenada y de la posición tiene que ser mayor o igual que 0 y menor que el tamaño del terreno.
                position.getY() >= 0 && position.getY() < size;
-               
-               // Si cumple las dos condiciones, se devuelve true y por tanto la posición es válida.
-               // Si no cumple las dos condiciones, se devuelve false y por tanto la posición no es válida.
+    }
+
+    public boolean isCellEmpty(Position pos) {
+        return getCell(pos).getContent() == CellContent.EMPTY;
+    }
+
+    public void setContent(Position pos, CellContent content) {
+        getCell(pos).setContent(content);
+    }
+
+    public boolean hasGoldNuggets() {
+        return goldCount.get() > 0;
+    }
+
+    public boolean hasAlivePlayers() {
+        return alivePlayers.get() > 0;
+    }
+
+    /**
+     * Imprime el estado actual del terreno.
+     */
+    public void printTerrain() {
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                CellContent content = getCell(new Position(i, j)).getContent();
+                char symbol = switch (content) {
+                    case EMPTY -> '.';
+                    case ORE -> 'O';
+                    case MINE -> 'M';
+                    case PLAYER -> 'P';
+                };
+                System.out.print(symbol + " ");
+            }
+            System.out.println();
+        }
     }
 } 
