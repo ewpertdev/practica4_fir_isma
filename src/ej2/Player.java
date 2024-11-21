@@ -6,7 +6,8 @@ import java.util.concurrent.CyclicBarrier;
 
 /**
  * Representa un jugador en el juego de búsqueda del tesoro.
- * Cada jugador se ejecuta en su propio hilo y se sincroniza con otros jugadores.
+ * Cada jugador se ejecuta en su propio hilo y se sincroniza con otros jugadores
+ * mediante una barrera cíclica para mantener turnos ordenados.
  */
 public class Player implements Runnable {
     private final int id;
@@ -36,6 +37,11 @@ public class Player implements Runnable {
         this.position = generateInitialPosition();
     }
 
+    /**
+     * Genera una posición inicial aleatoria válida para el jugador.
+     * 
+     * @return Posición inicial generada
+     */
     private Position generateInitialPosition() {
         Position pos;
         do {
@@ -48,6 +54,10 @@ public class Player implements Runnable {
         return pos;
     }
 
+    /**
+     * Método principal que ejecuta la lógica del jugador.
+     * Se ejecuta mientras el jugador esté vivo y haya oro o jugadores vivos.
+     */
     @Override
     public void run() {
         try {
@@ -60,6 +70,9 @@ public class Player implements Runnable {
         }
     }
 
+    /**
+     * Realiza un movimiento en el terreno.
+     */
     private void makeMove() {
         Position newPos = calculateNextPosition();
         if (terrain.isValidPosition(newPos) && terrain.movePlayer(position, newPos, this)) {
@@ -67,6 +80,12 @@ public class Player implements Runnable {
         }
     }
 
+    /**
+     * Calcula la siguiente posición del jugador de manera aleatoria.
+     * El jugador puede moverse una casilla en cualquier dirección.
+     * 
+     * @return Nueva posición calculada
+     */
     private Position calculateNextPosition() {
         int dx = random.nextInt(3) - 1; // -1, 0, or 1
         int dy = random.nextInt(3) - 1; // -1, 0, or 1
@@ -74,14 +93,39 @@ public class Player implements Runnable {
     }
 
     // Getters
+    /**
+     * @return Identificador del jugador
+     */
     public int getId() { return id; }
+
+    /**
+     * @return Nombre del jugador
+     */
     public String getName() { return name; }
+
+    /**
+     * @return Posición actual del jugador
+     */
     public Position getPosition() { return position; }
+
+    /**
+     * @return Cantidad de oro recolectado
+     */
     public int getGoldCount() { return goldCount; }
+
+    /**
+     * @return true si el jugador está vivo
+     */
     public boolean isAlive() { return isAlive; }
 
-    // Métodos para actualizar el estado del jugador
+    /**
+     * Incrementa el contador de oro del jugador
+     */
     public void incrementGoldCount() { goldCount++; }
+
+    /**
+     * Marca al jugador como eliminado cuando encuentra una mina
+     */
     public void die() { 
         isAlive = false;
         System.out.println(name + " ha encontrado una mina y ha sido eliminado!");

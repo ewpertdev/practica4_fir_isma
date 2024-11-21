@@ -1,59 +1,52 @@
 package ej2;
 
-// Creamos una clase que representa una posición en el terreno.
+/**
+ * Representa una posición en el terreno mediante coordenadas (x,y).
+ * Implementa equals() y hashCode() para poder ser usada como clave en un Map.
+ */
 public class Position {
-    // Creamos un atributo privado final que representa la coordenada x.
     private final int x;
-    // Creamos un atributo privado final que representa la coordenada y.
     private final int y;
 
-    // Creamos un constructor que inicializa la posición.
+    /**
+     * Constructor que inicializa una posición con coordenadas específicas.
+     * 
+     * @param x Coordenada x
+     * @param y Coordenada y
+     */
     public Position(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    // Creamos un método público que permite obtener la coordenada x.
+    /**
+     * Obtiene la coordenada x.
+     * 
+     * @return Coordenada x
+     */
     public int getX() {
         return x;
     }
 
-    // Creamos un método público que permite obtener la coordenada y.
+    /**
+     * Obtiene la coordenada y.
+     * 
+     * @return Coordenada y
+     */
     public int getY() {
         return y;
     }
 
-    // Creamos un método que permite comparar dos posiciones.
     @Override
-    // El método equals lleva el parametro Object obj porque se quiere comparar con cualquier objeto.
-    // Es un método booleano, es decir, devuelve true o false para indicar si las posiciones son iguales o no, 
-    // porque se quiere saber si dos posiciones son iguales.
     public boolean equals(Object obj) {
-        // Si las posiciones son iguales, se devuelve true.
-        // this es la posición actual y obj es la posición que se quiere comparar.
         if (this == obj) return true;
-        // Si el objeto es nulo o no es una instancia de la clase Position, se devuelve false.
         if (obj == null || getClass() != obj.getClass()) return false;
-        // Se crea una posición que es igual al objeto.
         Position position = (Position) obj;
-        // Se devuelve true si las posiciones son iguales.
         return x == position.x && y == position.y;
     }
 
-    // Creamos un método que permite obtener el hashcode de una po1sición.
     @Override
-    // El método hashCode no lleva ningún parámetro porque no modifica ningún atributo de la clase.
-    // Es un método entero, es decir, devuelve un número entero que representa el hashcode de la posición.
-    // El hashcode es un número que representa una posición de forma única.
-    // Es necesario implementar el método hashCode porque es necesario para poder usar las posiciones como claves en un HashMap.
-    // Si no se implementa, las posiciones no se pueden usar como claves en un HashMap.
-    // Hashcode significa código hash, es decir, un número que representa una posición de forma única, 
-    // hash es el proceso de convertir un objeto en un número.
     public int hashCode() {
-        // Se devuelve el hashcode de la posición.
-        // Es return 31 * x + y porque se multiplica por 31 para que el hashcode sea más único. 
-        // Hemos cogido 31 porque es un número primo, podria ser cualquier número. 
-        // Si no fuera primo, dos posiciones distintas podrían tener el mismo hashcode.
         return 31 * x + y;
     }
 } 

@@ -9,6 +9,10 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Clase principal que ejecuta la simulación del juego de búsqueda del tesoro.
+ * Gestiona la inicialización del juego, la ejecución de los jugadores y la determinación del ganador.
+ * 
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
  */
 public class Main {
     private static final int TERRAIN_SIZE = 15;
@@ -17,6 +21,11 @@ public class Main {
     private static List<Player> players;
     private static ExecutorService executor;
 
+    /**
+     * Método principal que inicia y ejecuta el juego.
+     * 
+     * @param args Argumentos de línea de comandos (no utilizados)
+     */
     public static void main(String[] args) {
         System.out.println("=== Juego de Búsqueda del Tesoro ===");
         initializeGame();
@@ -24,40 +33,40 @@ public class Main {
         determineWinner();
     }
 
+    /**
+     * Inicializa el juego creando el terreno, los jugadores y la barrera de sincronización.
+     */
     private static void initializeGame() {
-        // Inicializar el terreno y la barrera cíclica
         terrain = new Terrain(TERRAIN_SIZE, NUM_PLAYERS);
         CyclicBarrier barrier = new CyclicBarrier(NUM_PLAYERS, () -> {
-            // Esta acción se ejecuta cada vez que todos los jugadores completan un turno
             System.out.println("\n=== Estado del terreno ===");
             terrain.printTerrain();
             try {
-                Thread.sleep(1000); // Pausa para mejor visualización
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
         });
 
-        // Crear jugadores
         players = new ArrayList<>();
         for (int i = 1; i <= NUM_PLAYERS; i++) {
             players.add(new Player(i, terrain, barrier));
         }
 
-        // Inicializar el pool de hilos
         executor = Executors.newFixedThreadPool(NUM_PLAYERS);
     }
 
+    /**
+     * Ejecuta el juego iniciando los hilos de los jugadores y esperando su finalización.
+     */
     private static void runGame() {
         System.out.println("\nEstado inicial del terreno:");
         terrain.printTerrain();
 
-        // Iniciar los hilos de los jugadores
         for (Player player : players) {
             executor.execute(player);
         }
 
-        // Esperar a que termine el juego
         executor.shutdown();
         try {
             if (!executor.awaitTermination(5, TimeUnit.MINUTES)) {
@@ -70,16 +79,17 @@ public class Main {
         }
     }
 
+    /**
+     * Determina y anuncia el ganador del juego basado en la cantidad de oro recolectado.
+     */
     private static void determineWinner() {
         System.out.println("\n=== Fin del juego ===");
 
-        // Verificar si alguien ganó
         if (!terrain.hasAlivePlayers()) {
             System.out.println("¡Todos los jugadores han encontrado minas! No hay ganador.");
             return;
         }
 
-        // Encontrar al jugador con más oro
         Player winner = null;
         int maxGold = -1;
 
@@ -88,14 +98,12 @@ public class Main {
                 maxGold = player.getGoldCount();
                 winner = player;
             }
-            // Mostrar resultados de cada jugador
             System.out.printf("%s: %d pepitas%s%n", 
                 player.getName(), 
                 player.getGoldCount(),
                 player.isAlive() ? "" : " (eliminado)");
         }
 
-        // Anunciar ganador
         if (winner != null) {
             System.out.println("\n¡" + winner.getName() + " ha ganado con " + 
                              maxGold + " pepitas de oro!");

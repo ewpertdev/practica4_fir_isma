@@ -1,27 +1,33 @@
 package ej2;
 
-/*La clase Cell representa una celda en el terreno, es decir, un espacio en el tablero.
- * Para crear la clase Cell, primero se crea un constructor que inicializa el contenido de la celda en EMPTY.
- * Luego, se crea un método setContent que permite cambiar el contenido de la celda.
- * Por último, se crea un método getContent que permite obtener el contenido de la celda.
-*/
-
+/**
+ * Representa una celda individual en el terreno del juego.
+ * Cada celda puede contener un jugador, una pepita de oro, una mina o estar vacía.
+ */
 public class Cell {
-    // Primero, creamos un atributo privado que es el contenido de la celda. 
-    // Un atributo privado es aquel que solo se puede acceder desde la clase, en este caso, desde la clase Cell.
     private CellContent content;
-// Creamos un constructor que inicializa el contenido de la celda en EMPTY, para que al crear una celda, esta no tenga contenido.
-// Le ponemos .EMPTY para que sepa que es un espacio vacío.
+
+    /**
+     * Constructor que inicializa una celda vacía.
+     */
     public Cell() {
         this.content = CellContent.EMPTY;
     }
-// Creamos un método setContent que permite cambiar el contenido de la celda.
-// Recordar que los setters son los que modifican los atributos de la clase.
+
+    /**
+     * Establece el contenido de la celda.
+     * 
+     * @param content Nuevo contenido para la celda
+     */
     public void setContent(CellContent content) {
         this.content = content;
     }
-// Creamos un método getContent que permite obtener el contenido de la celda.
-// Este método no recibe ningún parámetro y devuelve el contenido de la celda.
+
+    /**
+     * Obtiene el contenido actual de la celda.
+     * 
+     * @return Contenido actual de la celda
+     */
     public CellContent getContent() {
         return content;
     }

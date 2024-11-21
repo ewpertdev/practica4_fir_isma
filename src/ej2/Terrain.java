@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Representa el terreno del juego donde se desarrolla la búsqueda del tesoro.
  * Utiliza un ConcurrentHashMap para manejar accesos concurrentes de manera segura.
+ * El terreno contiene pepitas de oro, minas y jugadores distribuidos aleatoriamente.
  */
 public class Terrain {
     private final int size;
@@ -27,14 +28,17 @@ public class Terrain {
     public Terrain(int size, int numPlayers) {
         this.size = size;
         this.grid = new ConcurrentHashMap<>();
-        this.goldCount = new AtomicInteger(numPlayers * 3); // Triple de pepitas que jugadores
-        this.mineCount = new AtomicInteger(numPlayers / 2); // Mitad de minas que jugadores
+        this.goldCount = new AtomicInteger(numPlayers * 3);
+        this.mineCount = new AtomicInteger(numPlayers / 2);
         this.alivePlayers = new AtomicInteger(numPlayers);
         this.random = new Random();
         initializeTerrain();
         distributeItems();
     }
 
+    /**
+     * Inicializa el terreno con celdas vacías.
+     */
     private void initializeTerrain() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -43,18 +47,24 @@ public class Terrain {
         }
     }
 
+    /**
+     * Distribuye pepitas de oro y minas aleatoriamente en el terreno.
+     */
     private void distributeItems() {
-        // Distribuir pepitas
         for (int i = 0; i < goldCount.get(); i++) {
             placeRandomItem(CellContent.ORE);
         }
         
-        // Distribuir minas
         for (int i = 0; i < mineCount.get(); i++) {
             placeRandomItem(CellContent.MINE);
         }
     }
 
+    /**
+     * Coloca un item (oro o mina) en una posición aleatoria vacía.
+     * 
+     * @param content Tipo de contenido a colocar
+     */
     private void placeRandomItem(CellContent content) {
         Position pos;
         do {
@@ -80,7 +90,6 @@ public class Terrain {
         Cell newCell = getCell(newPos);
         CellContent content = newCell.getContent();
 
-        // Procesar el contenido de la nueva celda
         switch (content) {
             case EMPTY:
                 updatePlayerPosition(oldPos, newPos);
@@ -98,17 +107,26 @@ public class Terrain {
         }
     }
 
+    /**
+     * Actualiza la posición del jugador en el terreno.
+     */
     private void updatePlayerPosition(Position oldPos, Position newPos) {
         getCell(oldPos).setContent(CellContent.EMPTY);
         getCell(newPos).setContent(CellContent.PLAYER);
     }
 
+    /**
+     * Procesa la recolección de oro por parte de un jugador.
+     */
     private void collectGold(Player player, Position pos) {
         player.incrementGoldCount();
         goldCount.decrementAndGet();
         System.out.println(player.getName() + " encontró una pepita de oro!");
     }
 
+    /**
+     * Procesa la eliminación de un jugador por una mina.
+     */
     private void handleMine(Player player, Position pos) {
         player.die();
         mineCount.decrementAndGet();
@@ -117,31 +135,52 @@ public class Terrain {
     }
 
     // Métodos de acceso y utilidad
+    /**
+     * Obtiene la celda en una posición específica.
+     */
     public Cell getCell(Position position) {
         return grid.get(position);
     }
 
+    /**
+     * Obtiene el tamaño del terreno.
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     * Verifica si una posición está dentro de los límites del terreno.
+     */
     public boolean isValidPosition(Position position) {
         return position.getX() >= 0 && position.getX() < size &&
                position.getY() >= 0 && position.getY() < size;
     }
 
+    /**
+     * Verifica si una celda está vacía.
+     */
     public boolean isCellEmpty(Position pos) {
         return getCell(pos).getContent() == CellContent.EMPTY;
     }
 
+    /**
+     * Establece el contenido de una celda.
+     */
     public void setContent(Position pos, CellContent content) {
         getCell(pos).setContent(content);
     }
 
+    /**
+     * Verifica si quedan pepitas de oro en el terreno.
+     */
     public boolean hasGoldNuggets() {
         return goldCount.get() > 0;
     }
 
+    /**
+     * Verifica si quedan jugadores vivos.
+     */
     public boolean hasAlivePlayers() {
         return alivePlayers.get() > 0;
     }
