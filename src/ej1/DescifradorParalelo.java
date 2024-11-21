@@ -1,8 +1,7 @@
 package ej1;
 
-import java.nio.charset.StandardCharsets;
+import ej1.utils.HashUtils;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class DescifradorParalelo implements IDescifrador {
@@ -11,11 +10,7 @@ public class DescifradorParalelo implements IDescifrador {
 
     public DescifradorParalelo() {
         this.passwordEncontrada = new AtomicReference<>(null);
-        try {
-            this.digest = MessageDigest.getInstance("SHA-256");
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("No se pudo inicializar SHA-256", e);
-        }
+        this.digest = HashUtils.crearMessageDigest();
     }
 
     @Override
@@ -24,19 +19,11 @@ public class DescifradorParalelo implements IDescifrador {
         throw new UnsupportedOperationException("Versión paralela en desarrollo");
     }
 
-    protected byte[] obtenerHash(String texto) {
+    protected void comprobarPassword(String password, byte[] hashObjetivo) {
+        byte[] hashActual;
         synchronized(digest) {
-            return digest.digest(texto.getBytes(StandardCharsets.UTF_8));
+            hashActual = HashUtils.obtenerHash(digest, password);
         }
-    }
-
-    protected byte[] hexStringToByteArray(String s) {
-        int len = s.length();
-        byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
-                    + Character.digit(s.charAt(i + 1), 16));
-        }
-        return data;
+        // Implementación pendiente
     }
 } 
