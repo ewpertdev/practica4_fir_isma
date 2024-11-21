@@ -20,6 +20,9 @@ public class Descifrador {
         System.out.println("\n=== Prueba Paralela ===");
         int numHilos = Runtime.getRuntime().availableProcessors();
         probarDescifrador(new DescifradorParalelo(numHilos));
+        
+        System.out.println("\n=== Prueba ForkJoin ===");
+        probarDescifrador(new DescifradorForkJoin());
     }
     
     private static void probarDescifrador(IDescifrador descifrador) {
