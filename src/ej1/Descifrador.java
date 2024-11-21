@@ -17,9 +17,9 @@ public class Descifrador {
         System.out.println("\n=== Prueba Secuencial ===");
         probarDescifrador(new DescifradorSecuencial());
         
-        // La versión paralela se habilitará próximamente
-        // System.out.println("\n=== Prueba Paralela ===");
-        // probarDescifrador(new DescifradorParalelo());
+        System.out.println("\n=== Prueba Paralela ===");
+        int numHilos = Runtime.getRuntime().availableProcessors();
+        probarDescifrador(new DescifradorParalelo(numHilos));
     }
     
     private static void probarDescifrador(IDescifrador descifrador) {
