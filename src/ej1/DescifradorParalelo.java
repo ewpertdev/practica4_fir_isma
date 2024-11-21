@@ -8,11 +8,23 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Implementación paralela del descifrador de contraseñas usando ExecutorService.
+ * Distribuye la carga de trabajo entre múltiples hilos para mejorar el rendimiento.
+ * 
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
+ */
 public class DescifradorParalelo implements IDescifrador {
     private final AtomicReference<String> passwordEncontrada;
     private final MessageDigest digest;
     private final int numHilos;
 
+    /**
+     * Constructor que inicializa el descifrador paralelo.
+     * 
+     * @param numHilos Número de hilos a utilizar en el pool
+     */
     public DescifradorParalelo(int numHilos) {
         this.passwordEncontrada = new AtomicReference<>(null);
         this.digest = HashUtils.crearMessageDigest();
@@ -30,6 +42,14 @@ public class DescifradorParalelo implements IDescifrador {
         finalizarYMostrarResultados(executor, tiempoInicio);
     }
 
+    /**
+     * Distribuye el trabajo entre los hilos del pool.
+     * Cada hilo procesa un subconjunto de las posibles primeras letras.
+     * 
+     * @param executor Servicio de ejecución para gestionar los hilos
+     * @param hashObjetivo Hash objetivo en bytes
+     * @param longitud Longitud de la contraseña a buscar
+     */
     private void distribuirTrabajo(ExecutorService executor, byte[] hashObjetivo, int longitud) {
         // Distribuimos el trabajo por la primera letra
         for (char primeraLetra = 'a'; primeraLetra <= 'z'; primeraLetra++) {
@@ -41,6 +61,14 @@ public class DescifradorParalelo implements IDescifrador {
         }
     }
 
+    /**
+     * Prueba combinaciones de manera recursiva a partir de una base dada.
+     * 
+     * @param actual StringBuilder con la combinación actual
+     * @param posicion Posición actual en la contraseña
+     * @param longitud Longitud total de la contraseña
+     * @param hashObjetivo Hash objetivo en bytes
+     */
     private void probarCombinaciones(StringBuilder actual, int posicion, int longitud, byte[] hashObjetivo) {
         if (passwordEncontrada.get() != null) return;
 
@@ -56,6 +84,12 @@ public class DescifradorParalelo implements IDescifrador {
         }
     }
 
+    /**
+     * Comprueba si una contraseña candidata corresponde al hash objetivo.
+     * 
+     * @param password Contraseña a comprobar
+     * @param hashObjetivo Hash objetivo en bytes
+     */
     private void comprobarPassword(String password, byte[] hashObjetivo) {
         byte[] hashActual;
         synchronized(digest) {
@@ -66,6 +100,12 @@ public class DescifradorParalelo implements IDescifrador {
         }
     }
 
+    /**
+     * Finaliza el pool de hilos y muestra los resultados.
+     * 
+     * @param executor Servicio de ejecución a finalizar
+     * @param tiempoInicio Tiempo de inicio del proceso en millisegundos
+     */
     private void finalizarYMostrarResultados(ExecutorService executor, long tiempoInicio) {
         executor.shutdown();
         try {
@@ -81,6 +121,11 @@ public class DescifradorParalelo implements IDescifrador {
         mostrarResultados(tiempoTotal);
     }
 
+    /**
+     * Muestra los resultados de la búsqueda y el tiempo empleado.
+     * 
+     * @param tiempoTotal Tiempo total empleado en millisegundos
+     */
     private void mostrarResultados(long tiempoTotal) {
         String password = passwordEncontrada.get();
         if (password != null) {

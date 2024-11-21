@@ -4,10 +4,20 @@ import ej1.utils.HashUtils;
 import java.security.MessageDigest;
 import java.util.Arrays;
 
+/**
+ * Implementación secuencial del descifrador de contraseñas.
+ * Realiza una búsqueda por fuerza bruta de manera secuencial.
+ * 
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
+ */
 public class DescifradorSecuencial implements IDescifrador {
     private final MessageDigest digest;
     private String passwordEncontrada;
 
+    /**
+     * Constructor que inicializa el MessageDigest para SHA-256.
+     */
     public DescifradorSecuencial() {
         this.digest = HashUtils.crearMessageDigest();
     }
@@ -23,6 +33,13 @@ public class DescifradorSecuencial implements IDescifrador {
         mostrarResultados(System.currentTimeMillis() - tiempoInicio);
     }
 
+    /**
+     * Prueba todas las combinaciones posibles de manera recursiva.
+     * 
+     * @param actual StringBuilder actual para construir las combinaciones
+     * @param longitud Longitud objetivo de la contraseña
+     * @param hashObjetivo Hash objetivo en bytes
+     */
     private void probarCombinaciones(StringBuilder actual, int longitud, byte[] hashObjetivo) {
         if (passwordEncontrada != null) return;
         
@@ -38,6 +55,12 @@ public class DescifradorSecuencial implements IDescifrador {
         }
     }
 
+    /**
+     * Comprueba si una contraseña candidata corresponde al hash objetivo.
+     * 
+     * @param password Contraseña a comprobar
+     * @param hashObjetivo Hash objetivo en bytes
+     */
     private void comprobarPassword(String password, byte[] hashObjetivo) {
         byte[] hashActual = HashUtils.obtenerHash(digest, password);
         if (Arrays.equals(hashActual, hashObjetivo)) {
@@ -45,6 +68,11 @@ public class DescifradorSecuencial implements IDescifrador {
         }
     }
 
+    /**
+     * Muestra los resultados de la búsqueda y el tiempo empleado.
+     * 
+     * @param tiempoTotal Tiempo total empleado en millisegundos
+     */
     private void mostrarResultados(long tiempoTotal) {
         if (passwordEncontrada != null) {
             System.out.println("Contraseña encontrada: " + passwordEncontrada);

@@ -2,7 +2,16 @@ package ej1.utils;
 
 import ej1.*;
 
+/**
+ * Clase de utilidad para realizar pruebas de rendimiento de los diferentes descifradores.
+ * 
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
+ */
 public class Benchmark {
+    /**
+     * Ejecuta una serie de pruebas de rendimiento con diferentes contraseñas.
+     */
     public static void ejecutarBenchmarks() {
         String[] passwords = {"aaaa", "mmmm", "zzzz", "zzzzz"};
         
@@ -15,6 +24,12 @@ public class Benchmark {
         }
     }
     
+    /**
+     * Prueba todas las implementaciones de descifradores con una contraseña específica.
+     * 
+     * @param hash Hash de la contraseña a probar
+     * @param longitud Longitud de la contraseña
+     */
     private static void probarTodos(String hash, int longitud) {
         // Secuencial
         medirTiempo("Secuencial", new DescifradorSecuencial(), hash, longitud);
@@ -29,6 +44,14 @@ public class Benchmark {
         medirTiempo("ForkJoin", new DescifradorForkJoin(), hash, longitud);
     }
     
+    /**
+     * Mide el tiempo de ejecución de un descifrador específico.
+     * 
+     * @param nombre Nombre identificativo de la prueba
+     * @param descifrador Implementación del descifrador a probar
+     * @param hash Hash de la contraseña a encontrar
+     * @param longitud Longitud de la contraseña
+     */
     private static void medirTiempo(String nombre, IDescifrador descifrador, String hash, int longitud) {
         System.gc(); // Intentar limpiar memoria antes de cada prueba
         
@@ -39,6 +62,12 @@ public class Benchmark {
         System.out.printf("%s: %dms%n", nombre, tiempo);
     }
     
+    /**
+     * Convierte un array de bytes en su representación hexadecimal.
+     * 
+     * @param hash Array de bytes a convertir
+     * @return String con la representación hexadecimal
+     */
     private static String bytesToHex(byte[] hash) {
         StringBuilder hexString = new StringBuilder(2 * hash.length);
         for (byte b : hash) {

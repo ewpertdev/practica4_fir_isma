@@ -7,11 +7,21 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.atomic.AtomicReference;
 
+/**
+ * Implementación del descifrador usando ForkJoin Framework.
+ * Utiliza división recursiva del trabajo para paralelizar la búsqueda.
+ * 
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
+ */
 public class DescifradorForkJoin implements IDescifrador {
     private final AtomicReference<String> passwordEncontrada;
     private final MessageDigest digest;
-    private static final int UMBRAL = 2; // Profundidad máxima de división
+    private static final int UMBRAL = 2;
 
+    /**
+     * Constructor que inicializa el descifrador ForkJoin.
+     */
     public DescifradorForkJoin() {
         this.passwordEncontrada = new AtomicReference<>(null);
         this.digest = HashUtils.crearMessageDigest();
@@ -29,12 +39,23 @@ public class DescifradorForkJoin implements IDescifrador {
         mostrarResultados(System.currentTimeMillis() - tiempoInicio);
     }
 
+    /**
+     * Tarea recursiva que implementa la estrategia divide y vencerás.
+     */
     private class TareaBusqueda extends RecursiveAction {
         private final String prefijo;
         private final int nivel;
         private final int longitudTotal;
         private final byte[] hashObjetivo;
 
+        /**
+         * Constructor de la tarea de búsqueda.
+         * 
+         * @param prefijo Prefijo actual de la contraseña
+         * @param nivel Nivel actual de recursión
+         * @param longitudTotal Longitud total de la contraseña
+         * @param hashObjetivo Hash objetivo en bytes
+         */
         public TareaBusqueda(String prefijo, int nivel, int longitudTotal, byte[] hashObjetivo) {
             this.prefijo = prefijo;
             this.nivel = nivel;
@@ -58,6 +79,9 @@ public class DescifradorForkJoin implements IDescifrador {
             }
         }
 
+        /**
+         * Divide el trabajo en subtareas para procesamiento paralelo.
+         */
         private void dividirTrabajo() {
             TareaBusqueda[] tareas = new TareaBusqueda[26];
             int i = 0;
@@ -72,12 +96,23 @@ public class DescifradorForkJoin implements IDescifrador {
             invokeAll(tareas);
         }
 
+        /**
+         * Procesa secuencialmente cuando el tamaño del problema es pequeño.
+         */
         private void procesarSecuencialmente() {
             StringBuilder sb = new StringBuilder(prefijo);
             completarSecuencialmente(sb, nivel, longitudTotal, hashObjetivo);
         }
     }
 
+    /**
+     * Completa la búsqueda de manera secuencial.
+     * 
+     * @param actual StringBuilder con la combinación actual
+     * @param posicion Posición actual en la contraseña
+     * @param longitud Longitud total de la contraseña
+     * @param hashObjetivo Hash objetivo en bytes
+     */
     private void completarSecuencialmente(StringBuilder actual, int posicion, int longitud, byte[] hashObjetivo) {
         if (passwordEncontrada.get() != null) return;
 
@@ -93,6 +128,12 @@ public class DescifradorForkJoin implements IDescifrador {
         }
     }
 
+    /**
+     * Comprueba si una contraseña candidata corresponde al hash objetivo.
+     * 
+     * @param password Contraseña a comprobar
+     * @param hashObjetivo Hash objetivo en bytes
+     */
     private void comprobarPassword(String password, byte[] hashObjetivo) {
         byte[] hashActual;
         synchronized(digest) {
@@ -103,6 +144,11 @@ public class DescifradorForkJoin implements IDescifrador {
         }
     }
 
+    /**
+     * Muestra los resultados de la búsqueda y el tiempo empleado.
+     * 
+     * @param tiempoTotal Tiempo total empleado en millisegundos
+     */
     private void mostrarResultados(long tiempoTotal) {
         String password = passwordEncontrada.get();
         if (password != null) {
