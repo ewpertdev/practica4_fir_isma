@@ -1,4 +1,4 @@
-package descifradorFuerzaBruta;
+package descifradorFuerzaBruta_Fir_Ismael;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -7,7 +7,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import descifradorFuerzaBruta.utils.HashUtils;
+import descifradorFuerzaBruta_Fir_Ismael.utils.HashUtils;
 
 /**
  * Implementación paralela del descifrador de contraseñas usando ExecutorService.

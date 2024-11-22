@@ -1,4 +1,4 @@
-package descifradorFuerzaBruta.utils;
+package descifradorFuerzaBruta_Fir_Ismael.utils;
 
 /**
  * Clase ejecutora para las pruebas de rendimiento.

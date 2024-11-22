@@ -1,4 +1,4 @@
-package descifradorFuerzaBruta;
+package descifradorFuerzaBruta_Fir_Ismael;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.atomic.AtomicReference;
 
-import descifradorFuerzaBruta.utils.HashUtils;
+import descifradorFuerzaBruta_Fir_Ismael.utils.HashUtils;
 
 /**
  * Implementación del descifrador usando ForkJoin Framework.

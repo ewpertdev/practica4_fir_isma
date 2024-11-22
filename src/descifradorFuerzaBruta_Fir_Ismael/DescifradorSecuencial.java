@@ -1,9 +1,9 @@
-package descifradorFuerzaBruta;
+package descifradorFuerzaBruta_Fir_Ismael;
 
 import java.security.MessageDigest;
 import java.util.Arrays;
 
-import descifradorFuerzaBruta.utils.HashUtils;
+import descifradorFuerzaBruta_Fir_Ismael.utils.HashUtils;
 
 /**
  * Implementación secuencial del descifrador de contraseñas.

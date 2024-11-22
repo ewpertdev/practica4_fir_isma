@@ -1,4 +1,4 @@
-package descifradorFuerzaBruta;
+package descifradorFuerzaBruta_Fir_Ismael;
 
 /**
  * Interfaz que define el comportamiento común para los descifradores de contraseñas.

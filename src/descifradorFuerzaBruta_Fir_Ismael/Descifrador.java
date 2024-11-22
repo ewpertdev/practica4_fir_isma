@@ -1,4 +1,4 @@
-package descifradorFuerzaBruta;
+package descifradorFuerzaBruta_Fir_Ismael;
 
 /**
  * Clase principal que ejecuta las pruebas de los diferentes descifradores.

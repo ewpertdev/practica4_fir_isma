@@ -1,4 +1,4 @@
-package descifradorFuerzaBruta.utils;
+package descifradorFuerzaBruta_Fir_Ismael.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

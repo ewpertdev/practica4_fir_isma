@@ -1,6 +1,6 @@
-package descifradorFuerzaBruta.utils;
+package descifradorFuerzaBruta_Fir_Ismael.utils;
 
-import descifradorFuerzaBruta.*;
+import descifradorFuerzaBruta_Fir_Ismael.*;
 
 /**
  * Clase utilitaria para realizar mediciones de rendimiento.
