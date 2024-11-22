@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<eclipse-userlibraries>
+  <library name="jackson-annotations-2.15.2">
+    <archive path="C:/Users/Mumu/IdeaProjects/practica4_fir_isma/lib/jackson-annotations-2.15.2.jar" />
+    <archive path="C:/Users/Mumu/IdeaProjects/practica4_fir_isma/lib/jackson-core-2.15.2.jar" />
+    <archive path="C:/Users/Mumu/IdeaProjects/practica4_fir_isma/lib/jackson-databind-2.15.2.jar" />
+  </library>
+</eclipse-userlibraries>
+
