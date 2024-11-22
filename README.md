@@ -65,3 +65,32 @@ src/descifradorFuerzaBruta/
 ### Hash por Defecto
 
 `b221d9dbb083a7f33428d7c2a3c3198ae925614d70210e28716ccaa7cd4ddb79`
+
+
+### Consideraciones de Rendimiento
+
+#### Secuencial
+- Mejor para contraseñas cortas (< 4 caracteres)
+- Sin overhead de sincronización
+- Uso de memoria predecible
+
+#### Paralelo
+- Óptimo para contraseñas medias
+- Escalable según núcleos disponibles
+- Overhead por gestión de hilos
+- Sincronización en acceso a MessageDigest
+
+#### ForkJoin
+- Eficiente para contraseñas largas
+- Balanceo automático de carga
+- Menor overhead que ExecutorService
+- Umbral ajustable para optimización
+
+### Limitaciones
+- Solo letras minúsculas (a-z)
+- Sin soporte para caracteres especiales
+- Rendimiento dependiente del hardware
+
+## Autores
+- Mohd Firdaus Bin Abdullah
+- Ismael Lozano
