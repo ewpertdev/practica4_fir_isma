@@ -1,4 +1,4 @@
-package ej1;
+package descifradorFuerzaBruta;
 
 /**
  * Interfaz que define el comportamiento común para los descifradores de contraseñas.

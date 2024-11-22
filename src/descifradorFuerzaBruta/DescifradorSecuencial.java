@@ -1,8 +1,9 @@
-package ej1;
+package descifradorFuerzaBruta;
 
-import ej1.utils.HashUtils;
 import java.security.MessageDigest;
 import java.util.Arrays;
+
+import descifradorFuerzaBruta.utils.HashUtils;
 
 /**
  * Implementación secuencial del descifrador de contraseñas.

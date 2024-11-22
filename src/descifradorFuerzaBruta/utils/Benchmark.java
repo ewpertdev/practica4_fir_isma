@@ -1,6 +1,6 @@
-package ej1.utils;
+package descifradorFuerzaBruta.utils;
 
-import ej1.*;
+import descifradorFuerzaBruta.*;
 
 /**
  * Clase utilitaria para realizar mediciones de rendimiento.

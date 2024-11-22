@@ -1,11 +1,12 @@
-package ej1;
+package descifradorFuerzaBruta;
 
-import ej1.utils.HashUtils;
 import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 import java.util.concurrent.atomic.AtomicReference;
+
+import descifradorFuerzaBruta.utils.HashUtils;
 
 /**
  * Implementación del descifrador usando ForkJoin Framework.

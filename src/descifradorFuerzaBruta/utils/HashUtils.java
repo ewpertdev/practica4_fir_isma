@@ -1,4 +1,4 @@
-package ej1.utils;
+package descifradorFuerzaBruta.utils;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

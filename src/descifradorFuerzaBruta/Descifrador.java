@@ -1,4 +1,4 @@
-package ej1;
+package descifradorFuerzaBruta;
 
 /**
  * Clase principal que ejecuta las pruebas de los diferentes descifradores.
