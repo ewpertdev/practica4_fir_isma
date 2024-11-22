@@ -43,13 +43,18 @@ Sistema de descifrado de contraseñas que implementa tres estrategias diferentes
 - Soporte para múltiples configuraciones de hilos
 
 ## Estructura del Proyecto
+
+```
 src/descifradorFuerzaBruta/
-├── Descifrador.java # Clase principal
-├── IDescifrador.java # Interfaz común
-├── DescifradorSecuencial.java
-├── DescifradorParalelo.java
-├── DescifradorForkJoin.java
+│
+├── Descifrador.java           # Clase principal
+├── IDescifrador.java          # Interfaz común
+├── DescifradorSecuencial.java # Implementación secuencial
+├── DescifradorParalelo.java   # Implementación paralela
+├── DescifradorForkJoin.java   # Implementación fork-join
+│
 └── utils/
-├── Benchmark.java
-├── BenchmarkRunner.java
-└── HashUtils.java
+    ├── Benchmark.java         # Utilidad de pruebas
+    ├── BenchmarkRunner.java   # Ejecutor de benchmarks
+    └── HashUtils.java         # Utilidades de hash
+```
