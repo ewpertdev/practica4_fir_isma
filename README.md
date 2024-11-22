@@ -1,4 +1,4 @@
-# Descifrador de Contraseñas (ej1)
+# Descifrador de Contraseñas (Descrifrador por Fuerza Bruta)
 
 Sistema de descifrado de contraseñas que implementa tres estrategias diferentes de procesamiento para encontrar contraseñas a partir de su hash SHA-256.
 
