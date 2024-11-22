@@ -9,6 +9,15 @@ package descifradorFuerzaBruta.utils;
  * @author Ismael Lozano
  */
 public class BenchmarkRunner {
+    
+    /**
+     * Constructor por defecto.
+     * No se requiere inicialización especial ya que la clase solo contiene un método estático.
+     */
+    public BenchmarkRunner() {
+        // Constructor vacío
+    }
+
     /**
      * Punto de entrada principal para ejecutar los benchmarks.
      * Inicia una serie de pruebas de rendimiento para diferentes
