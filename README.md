@@ -1,3 +1,9 @@
+# Nota Importante sobre el Repositorio
+
+## Reorganización del Repositorio (22/11/2024)
+
+Durante un intento de reorganizar el repositorio para los ejercicios 2 y 3, se realizó una operación de `git rebase` que afectó inadvertidamente las fechas de todos los commits del proyecto. 
+
 # Descifrador de Contraseñas (Descrifrador por Fuerza Bruta)
 
 Sistema de descifrado de contraseñas que implementa tres estrategias diferentes de procesamiento para encontrar contraseñas a partir de su hash SHA-256.
