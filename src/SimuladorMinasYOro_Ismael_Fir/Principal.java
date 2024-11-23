@@ -16,5 +16,21 @@ public class Principal {
         // Inicializamos el terreno
         terreno = new Terreno(TAMANIO_TERRENO);
         terreno.imprimirTerreno();
+
+         // Creamos un grupo de hilos (uno por jugador)
+        ejecutor = Executors.newFixedThreadPool(NUMERO_JUGADORES);
+
+        // Lanzamos los jugadores en hilos separados
+        for (int i = 0; i < NUMERO_JUGADORES; i++) {
+            ejecutor.execute(new Jugador(i + 1, terreno));
+        }
+
+        // Cerramos el ejecutor y esperamos a que los hilos terminen
+        ejecutor.shutdown();
+        while (!ejecutor.isTerminated()) {
+            // Espera activa hasta que todos los hilos finalicen
+        }
+
+        System.out.println("\n=== Fin del Juego ===");
     }
 }
