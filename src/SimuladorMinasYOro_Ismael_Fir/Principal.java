@@ -8,6 +8,10 @@ public class Principal {
     private static ExecutorService ejecutor;
     
     public static void main(String[] args) {
-        
+          System.out.println("=== Juego de Minas y Oro ===");
+
+        // Inicializamos el terreno
+        terreno = new Terreno(TAMANIO_TERRENO);
+        terreno.imprimirTerreno();
     }
 }
