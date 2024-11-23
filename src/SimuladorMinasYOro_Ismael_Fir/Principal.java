@@ -1,4 +1,4 @@
-package juego;
+package SimuladorMinasYOro_Ismael_Fir;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
