@@ -1,0 +1,127 @@
+[33mf932cee[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: reset: moving to origin/master
+[33mf932cee[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{1}: pull --tags origin master: Merge made by the 'ort' strategy.
+[33m965181a[m HEAD@{2}: rebase (abort): returning to refs/heads/master
+[33m87f1394[m HEAD@{3}: rebase: fast-forward
+[33m20d71e8[m HEAD@{4}: rebase: fast-forward
+[33mca8b747[m HEAD@{5}: rebase: fast-forward
+[33m1e9a5b1[m HEAD@{6}: rebase: fast-forward
+[33m1858ca4[m HEAD@{7}: rebase: fast-forward
+[33maaea7ae[m HEAD@{8}: rebase: fast-forward
+[33m454b689[m HEAD@{9}: rebase: fast-forward
+[33maf4cbb8[m HEAD@{10}: rebase: fast-forward
+[33m0cfe40e[m HEAD@{11}: rebase: fast-forward
+[33m1ba23ef[m HEAD@{12}: rebase: fast-forward
+[33m0f660fe[m HEAD@{13}: rebase: fast-forward
+[33m73cf8cf[m HEAD@{14}: rebase: fast-forward
+[33mbd0cde7[m HEAD@{15}: rebase: fast-forward
+[33m9d643ca[m HEAD@{16}: rebase: fast-forward
+[33m309795d[m HEAD@{17}: rebase: fast-forward
+[33mfe6178b[m HEAD@{18}: rebase: fast-forward
+[33m0c1a712[m HEAD@{19}: rebase: fast-forward
+[33m5b96b47[m HEAD@{20}: rebase: fast-forward
+[33m54e1d53[m HEAD@{21}: rebase: fast-forward
+[33mb5e294b[m HEAD@{22}: rebase: fast-forward
+[33m481b3bc[m HEAD@{23}: rebase: fast-forward
+[33m13eaaa5[m HEAD@{24}: rebase (start): checkout 13eaaa5fe357e7ad46727241e0dc910a8cb9e9e9
+[33m965181a[m HEAD@{25}: rebase (finish): returning to refs/heads/master
+[33m965181a[m HEAD@{26}: rebase (pick): feat: Añadir soporte Eclipse IDE mediante exportación desde IntelliJ, arreglado javadoc para descifradorPorFuerzaBruta_Fir_Ismael
+[33mddb9461[m HEAD@{27}: rebase (pick): refactor: Renombrar proyecto a descifradorFuerzaBruta_Fir_Ismael para entrega
+[33m00098ad[m HEAD@{28}: rebase (pick): fix: Resolver warning javadoc en BenchmarkRunner
+[33m2ea7a00[m HEAD@{29}: rebase (pick): Update README.md
+[33m6429f2d[m HEAD@{30}: rebase (pick): Update README.md
+[33m6710258[m HEAD@{31}: rebase (pick): Update README.md
+[33md79160d[m HEAD@{32}: rebase (pick): Update README.md
+[33m3068813[m HEAD@{33}: rebase (pick): Update README.md
+[33mf9a04a9[m HEAD@{34}: rebase (pick): docs: Añadir JavaDoc completo para BenchmarkRunner
+[33mc2703e3[m HEAD@{35}: rebase (pick): refactor: Renombrar carpeta ej1 a descifradorFuerzaBruta
+[33mac967db[m HEAD@{36}: rebase (pick): Agregar BenchmarkRunner para pruebas en IDE
+[33mb16a9bf[m HEAD@{37}: rebase (pick): test: Añade pruebas básicas de lectura/escritura JSON
+[33m81cd1b9[m HEAD@{38}: rebase (pick): feat: Implementación de utilidades JSON
+[33ma0b406f[m HEAD@{39}: rebase (pick): feat: Implementación completa de la clase Transfer
+[33mb6a4563[m HEAD@{40}: rebase (pick): feat: Implementación completa de la clase Client
+[33m0e91bea[m HEAD@{41}: rebase (pick): feat: Estructura inicial del sistema bancario (ej3)
+[33m3c15be2[m HEAD@{42}: rebase (pick): docs: Documentación JavaDoc completa para todas las clases
+[33m747fe80[m HEAD@{43}: rebase (pick): docs: añade documentación JavaDoc para el ejercicio 2
+[33mb151665[m HEAD@{44}: rebase (pick): feat: implementa juego de búsqueda del tesoro (ej2)
+[33mbf13ce2[m HEAD@{45}: rebase (pick): docs: agrega documentación JavaDoc completa
+[33m12f8428[m HEAD@{46}: rebase (pick): implementación ForkJoin y benchmarks
+[33m85cbcd9[m HEAD@{47}: rebase (pick): corrige implementación y completa versión paralela
+[33m00342b9[m HEAD@{48}: rebase (pick): integra utilidades comunes en implementaciones
+[33m42cee1c[m HEAD@{49}: rebase (pick): centraliza utilidades y mejora estructura principal
+[33m74aa3c6[m HEAD@{50}: rebase (pick): estructura base para DescifradorParalelo
+[33md77c4c2[m HEAD@{51}: rebase (pick): Adaptado el DescifradorSecuencial a IDescifrador
+[33md693e87[m HEAD@{52}: rebase (pick): crear interfaz base para descifradores
+[33m2ecefc3[m HEAD@{53}: rebase (pick): More comments, for Descifrador also
+[33m74627aa[m HEAD@{54}: rebase (pick): Added comments to DescrifradorSecuencial for clarification
+[33mc5a7e5d[m HEAD@{55}: rebase (pick): TODO: manejo errores, mejorar legibilidad, rendimiento...etc
+[33mc25e4c9[m HEAD@{56}: rebase (pick): elimina implementación antigua (bruteforce)
+[33m8d3edee[m HEAD@{57}: rebase (pick): medición de rendimiento y mejora la salida
+[33m62ea494[m HEAD@{58}: rebase (pick): implementa lógica básica de búsqueda por fuerza bruta
+[33m61ec8ac[m HEAD@{59}: rebase (pick): Crear clase DescifradorSecuencial + Implementa método obtenerHash para generar SHA-256 + función de conversión hexadecimal a bytes + Configura manejo de excepciones básico
+[33m30d3d76[m HEAD@{60}: rebase (pick): Crea estructura de directorios src/ej1 + Agrega clase principal Descifrador + Define parámetros iniciales (hash y longitud)
+[33m523c093[m HEAD@{61}: rebase (pick): Explicación del método hashCode
+[33m9cfcec2[m HEAD@{62}: rebase (pick): TODO list for later
+[33me2a90ff[m HEAD@{63}: rebase (pick): - Modificar Terrain para usar HashMap en vez de array
+[33m5a91c8b[m HEAD@{64}: rebase (pick): Crear clase Position con equals y hashCode
+[33m50b55b0[m HEAD@{65}: rebase (pick): docs: Añadir documentación y requisitos del proyecto
+[33meeedce4[m HEAD@{66}: rebase (pick): Implementación de la estructura base del programa. Creación de clases Cell, CellContent y Terrain con diseño modular.
+[33m87f1394[m HEAD@{67}: rebase (pick): Added ej2 package
+[33m20d71e8[m HEAD@{68}: rebase (pick): Finished main
+[33mca8b747[m HEAD@{69}: rebase (pick): Mas cosas
+[33m1e9a5b1[m HEAD@{70}: rebase (pick): Inicio y fin del char
+[33m1858ca4[m HEAD@{71}: rebase (pick): for
+[33maaea7ae[m HEAD@{72}: rebase (pick): Ejecutor
+[33m454b689[m HEAD@{73}: rebase (pick): Longitud Partes
+[33maf4cbb8[m HEAD@{74}: rebase (pick): Array de bytes
+[33m0cfe40e[m HEAD@{75}: rebase (pick): Método arreglado
+[33m1ba23ef[m HEAD@{76}: rebase (pick): Arreglando cosas
+[33m0f660fe[m HEAD@{77}: rebase (pick): Implementando método de buscar contraseña por rango
+[33m73cf8cf[m HEAD@{78}: rebase (pick): Añadido método para probar todas las combinaciones que haya
+[33mbd0cde7[m HEAD@{79}: rebase (pick): Añadido variable Atomic y número de hilos
+[33m9d643ca[m HEAD@{80}: rebase (pick): Create README.md
+[33m309795d[m HEAD@{81}: rebase: fast-forward
+[33mfe6178b[m HEAD@{82}: rebase: fast-forward
+[33m0c1a712[m HEAD@{83}: rebase: fast-forward
+[33m5b96b47[m HEAD@{84}: rebase: fast-forward
+[33m54e1d53[m HEAD@{85}: rebase: fast-forward
+[33mb5e294b[m HEAD@{86}: rebase: fast-forward
+[33m481b3bc[m HEAD@{87}: rebase: fast-forward
+[33m31772ac[m HEAD@{88}: rebase (start): checkout 31772ac1c502c781ac1ec6549df44504951c14d9
+[33m24410ce[m HEAD@{89}: commit: feat: Añadir soporte Eclipse IDE mediante exportación desde IntelliJ, arreglado javadoc para descifradorPorFuerzaBruta_Fir_Ismael
+[33m8f17d5a[m HEAD@{90}: commit: refactor: Renombrar proyecto a descifradorFuerzaBruta_Fir_Ismael para entrega
+[33m4041f42[m HEAD@{91}: commit: fix: Resolver warning javadoc en BenchmarkRunner
+[33mb028640[m HEAD@{92}: pull --tags origin master: Merge made by the 'ort' strategy.
+[33mf3c9d77[m HEAD@{93}: commit: docs: Añadir JavaDoc completo para BenchmarkRunner
+[33m35ab564[m HEAD@{94}: commit: refactor: Renombrar carpeta ej1 a descifradorFuerzaBruta
+[33m321b15f[m HEAD@{95}: commit: Agregar BenchmarkRunner para pruebas en IDE
+[33mcfcea95[m HEAD@{96}: commit: test: Añade pruebas básicas de lectura/escritura JSON
+[33m617920a[m HEAD@{97}: commit: feat: Implementación de utilidades JSON
+[33mc4732f9[m HEAD@{98}: commit: feat: Implementación completa de la clase Transfer
+[33m1a8c207[m HEAD@{99}: commit: feat: Implementación completa de la clase Client
+[33m1c34174[m HEAD@{100}: commit: feat: Estructura inicial del sistema bancario (ej3)
+[33m118f1a5[m HEAD@{101}: commit: docs: Documentación JavaDoc completa para todas las clases
+[33m3cd7789[m HEAD@{102}: commit: docs: añade documentación JavaDoc para el ejercicio 2
+[33m7c01368[m HEAD@{103}: commit: feat: implementa juego de búsqueda del tesoro (ej2)
+[33m9b77343[m HEAD@{104}: commit: docs: agrega documentación JavaDoc completa
+[33m522ac6f[m HEAD@{105}: commit: implementación ForkJoin y benchmarks
+[33m960d77f[m HEAD@{106}: commit: corrige implementación y completa versión paralela
+[33mf6f2734[m HEAD@{107}: commit: integra utilidades comunes en implementaciones
+[33mbb00f1e[m HEAD@{108}: commit: centraliza utilidades y mejora estructura principal
+[33mdcf2531[m HEAD@{109}: commit: estructura base para DescifradorParalelo
+[33m5233492[m HEAD@{110}: commit: Adaptado el DescifradorSecuencial a IDescifrador
+[33mf7b8115[m HEAD@{111}: commit: crear interfaz base para descifradores
+[33mbd27bee[m HEAD@{112}: commit: More comments, for Descifrador also
+[33m8198090[m HEAD@{113}: commit: Added comments to DescrifradorSecuencial for clarification
+[33m3d21f83[m HEAD@{114}: commit: TODO: manejo errores, mejorar legibilidad, rendimiento...etc
+[33m7bb6584[m HEAD@{115}: commit: elimina implementación antigua (bruteforce)
+[33m0ca7c96[m HEAD@{116}: commit: medición de rendimiento y mejora la salida
+[33mf627851[m HEAD@{117}: commit: implementa lógica básica de búsqueda por fuerza bruta
+[33meace5ae[m HEAD@{118}: commit: Crear clase DescifradorSecuencial + Implementa método obtenerHash para generar SHA-256 + función de conversión hexadecimal a bytes + Configura manejo de excepciones básico
+[33m75ebb19[m HEAD@{119}: commit: Crea estructura de directorios src/ej1 + Agrega clase principal Descifrador + Define parámetros iniciales (hash y longitud)
+[33maaf05a3[m HEAD@{120}: commit: Explicación del método hashCode
+[33ma886660[m HEAD@{121}: commit: TODO list for later
+[33md5c9e0b[m HEAD@{122}: commit: - Modificar Terrain para usar HashMap en vez de array
+[33m60a63a1[m HEAD@{123}: commit: Crear clase Position con equals y hashCode
+[33me343cb5[m HEAD@{124}: commit: docs: Añadir documentación y requisitos del proyecto
+[33m61a2a5c[m HEAD@{125}: commit: Implementación de la estructura base del programa. Creación de clases Cell, CellContent y Terrain con diseño modular.
+[33mcd8b6aa[m HEAD@{126}: clone: from https://github.com/ewpertdev/practica4_fir_isma.git
