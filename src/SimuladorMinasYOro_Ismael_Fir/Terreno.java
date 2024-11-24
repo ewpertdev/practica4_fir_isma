@@ -84,5 +84,15 @@ public class Terreno {
             System.out.println();
         }
     }
+    /**
+     * Verifica si una posición está dentro de los límites del terreno.
+     *
+     * @param x Coordenada X
+     * @param y Coordenada Y
+     * @return true si está dentro de los límites, false de lo contrario
+     */
+    public boolean posicionValida(int x, int y) {
+        return x >= 0 && x < tamanio && y >= 0 && y < tamanio;
+    }
 
 }
