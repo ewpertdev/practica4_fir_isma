@@ -15,4 +15,22 @@ public class Terreno {
         this.aleatorio = new Random();
         this.juegoTerminado = new AtomicBoolean(false); // Inicializamos el juego como no terminado
     }
+        /**
+     * Inicializa el terreno distribuyendo oro (O), minas (M) y celdas vacías (.).
+     */
+    private void inicializarTerreno() {
+        for (int i = 0; i < tamanio; i++) {
+            for (int j = 0; j < tamanio; j++) {
+                int rand = aleatorio.nextInt(5); // Probabilidad de contenido
+                if (rand == 0) {
+                    cuadrado[i][j] = 'O'; // Oro
+                } else if (rand == 1) {
+                    cuadrado[i][j] = 'M'; // Mina
+                } else {
+                    cuadrado[i][j] = '.'; // Celda vacía
+                }
+            }
+        }
+    }
+
 }
