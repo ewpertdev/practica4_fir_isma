@@ -28,3 +28,11 @@ public class Jugador implements Runnable {
                     break; // Salimos si el juego ha terminado
                 }
             }
+            try {
+                Thread.sleep(500); // Pausa para observar el juego
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt(); // Restaurar el estado de interrupción
+            }
+        }
+    }
+}
