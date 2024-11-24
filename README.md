@@ -97,7 +97,7 @@ src/descifradorFuerzaBruta/
 - Sin soporte para caracteres especiales
 - Rendimiento dependiente del hardware
 
-  # Simulador de Minas y Oro
+# Simulador de Minas y Oro
 
 Un juego multijugador concurrente donde varios jugadores compiten por encontrar oro mientras evitan las minas en un terreno compartido.
 
