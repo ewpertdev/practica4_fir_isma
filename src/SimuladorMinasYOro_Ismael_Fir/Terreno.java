@@ -94,5 +94,8 @@ public class Terreno {
     public boolean posicionValida(int x, int y) {
         return x >= 0 && x < tamanio && y >= 0 && y < tamanio;
     }
+    public int getTamanio() {
+        return tamanio;
+    }
 
 }
