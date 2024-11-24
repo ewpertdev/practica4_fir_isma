@@ -32,5 +32,37 @@ public class Terreno {
             }
         }
     }
+    /**
+     * Mueve a un jugador a una posición del terreno.
+     * Si encuentra oro o pisa una mina, termina el juego.
+     *
+     * @param x        Coordenada X del movimiento
+     * @param y        Coordenada Y del movimiento
+     * @param idJugador ID del jugador que se mueve
+     * @return true si el movimiento termina el juego, false de lo contrario
+     */
+    public synchronized boolean moverJugador(int x, int y, int idJugador) {
+        // Si el juego ya terminó, no permitimos más movimientos
+        if (juegoTerminado.get()) {
+            return false;
+        }
+
+        char contenido = cuadrado[x][y]; // Obtenemos el contenido de la celda
+        if (contenido == 'O') {
+            System.out.println("Jugador " + idJugador + " encontró ORO en (" + x + ", " + y + ") y ganó el juego!");
+            cuadrado[x][y] = 'P'; // Marcamos la posición con el jugador
+            juegoTerminado.set(true); // Marcamos el juego como terminado
+            return true;
+        } else if (contenido == 'M') {
+            System.out.println("Jugador " + idJugador + " encontró una MINA en (" + x + ", " + y + ") y perdió el juego!");
+            cuadrado[x][y] = 'P'; // Marcamos la posición con el jugador
+            juegoTerminado.set(true); // Marcamos el juego como terminado
+            return true;
+        } else {
+            System.out.println("Jugador " + idJugador + " no encontró nada en (" + x + ", " + y + ")");
+            cuadrado[x][y] = 'P'; // Marcamos la posición del jugador
+            return false;
+        }
+    }
 
 }
