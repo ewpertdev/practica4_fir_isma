@@ -25,4 +25,32 @@ public class SistemaBancario {
             destino.actualizarSaldo(transferencia.getMonto());
         }
     }
+    public static void main(String[] args) {
+        SistemaBancario banco = new SistemaBancario();
+        ExecutorService ejecutor = Executors.newFixedThreadPool(3);
+
+        // Crear algunas transferencias de ejemplo
+        Transferencia[] transferencias = {
+            new Transferencia("Cliente1", "Cliente2", 100),
+            new Transferencia("Cliente2", "Cliente3", 200),
+            new Transferencia("Cliente3", "Cliente1", 150)
+        };
+
+        // Procesar transferencias de forma concurrente
+        for (Transferencia transferencia : transferencias) {
+            ejecutor.submit(() -> banco.procesarTransferencia(transferencia));
+        }
+
+        ejecutor.shutdown();
+        try {
+            ejecutor.awaitTermination(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        // Imprimir saldos finales
+        banco.clientes.forEach((id, cliente) -> 
+            System.out.println(id + " saldo: " + cliente.getSaldo()));
+    }
 }
+
