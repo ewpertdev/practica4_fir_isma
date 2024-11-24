@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"SimuladorMinasYOro_Ismael_Fir","l":"Jugador"},{"p":"SimuladorMinasYOro_Ismael_Fir","l":"Principal"},{"p":"SimuladorMinasYOro_Ismael_Fir","l":"Terreno"}];updateSearchResults();

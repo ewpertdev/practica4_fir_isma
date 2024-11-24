@@ -3,12 +3,25 @@ package SimuladorMinasYOro_Ismael_Fir;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Clase que representa el terreno de juego donde se desarrolla la partida.
+ * Contiene la lógica para gestionar el estado del juego, el movimiento de los jugadores,
+ * y la distribución de oro y minas.
+ * 
+ * @author Ismael Lozano
+ * @author Mohd Firdaus Bin Abdullah
+ */
 public class Terreno {
     private final char[][] cuadrado;          // Representación del terreno
     private final int tamanio;               // Tamaño del terreno
     private final Random aleatorio;          // Generador de posiciones aleatorias
     private final AtomicBoolean juegoTerminado; // Bandera para indicar si el juego terminó
 
+    /**
+     * Constructor que crea un nuevo terreno de juego.
+     * 
+     * @param tamanio Dimensión del terreno (terreno cuadrado de tamanio x tamanio)
+     */
     public Terreno(int tamanio) {
         this.tamanio = tamanio;
         this.cuadrado = new char[tamanio][tamanio];
@@ -94,6 +107,11 @@ public class Terreno {
     public boolean posicionValida(int x, int y) {
         return x >= 0 && x < tamanio && y >= 0 && y < tamanio;
     }
+    /**
+     * Obtiene el tamaño del terreno.
+     * 
+     * @return El tamaño del terreno (número de casillas por lado)
+     */
     public int getTamanio() {
         return tamanio;
     }
