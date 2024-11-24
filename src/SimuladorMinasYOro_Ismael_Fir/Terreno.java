@@ -64,5 +64,13 @@ public class Terreno {
             return false;
         }
     }
+    /**
+     * Verifica si el juego ha terminado.
+     *
+     * @return true si el juego ha terminado, false de lo contrario
+     */
+    public boolean juegoTerminado() {
+        return juegoTerminado.get();
+    }
 
 }
