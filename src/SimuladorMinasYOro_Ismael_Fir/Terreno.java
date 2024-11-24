@@ -72,5 +72,17 @@ public class Terreno {
     public boolean juegoTerminado() {
         return juegoTerminado.get();
     }
+    /**
+     * Imprime el estado actual del terreno.
+     */
+    public void imprimirTerreno() {
+        System.out.println("\nEstado actual del terreno:");
+        for (int i = 0; i < tamanio; i++) {
+            for (int j = 0; j < tamanio; j++) {
+                System.out.print(cuadrado[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
 
 }
