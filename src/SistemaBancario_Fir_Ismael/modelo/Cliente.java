@@ -1,7 +1,9 @@
 package SistemaBancario_Fir_Ismael.modelo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Cliente {
     private String id;
     private String nombre;
@@ -16,7 +18,7 @@ public class Cliente {
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     
-    @JsonProperty("nombre")
+    @JsonProperty(value = "nombre", alternate = {"Nombre"})
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
     
