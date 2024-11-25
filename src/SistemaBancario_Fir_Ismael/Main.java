@@ -3,7 +3,19 @@ package SistemaBancario_Fir_Ismael;
 import SistemaBancario_Fir_Ismael.servicios.ServicioTransferencias;
 import java.io.IOException;
 
+/**
+ * Clase principal que inicia el sistema bancario.
+ * 
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
+ * @version 1.0
+ */
 public class Main {
+    /**
+     * Punto de entrada principal del programa.
+     * 
+     * @param args Argumentos de línea de comando (no utilizados)
+     */
     public static void main(String[] args) {
         try {
             ServicioTransferencias servicio = new ServicioTransferencias();

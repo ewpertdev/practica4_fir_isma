@@ -4,15 +4,43 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonAlias;
 
+/**
+ * Representa un cliente del sistema bancario con sus datos personales y financieros.
+ * 
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
+ * @version 1.0
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Cliente {
+    /**
+     * Identificador único del cliente
+     */
     private String id;
+    
+    /**
+     * Nombre completo del cliente
+     */
     private String nombre;
+    
+    /**
+     * Saldo actual de la cuenta del cliente
+     */
     private double saldo;
+    
+    /**
+     * Número de cuenta bancaria del cliente
+     */
     private String numeroCuenta;
+    
+    /**
+     * Dirección postal del cliente
+     */
     private String direccion;
 
-    // Constructor por defecto para Jackson
+    /**
+     * Constructor por defecto para Jackson
+     */
     public Cliente() {}
 
     @JsonProperty("id")

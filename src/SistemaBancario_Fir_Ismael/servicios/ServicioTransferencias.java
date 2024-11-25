@@ -7,6 +7,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Servicio que gestiona las operaciones de transferencias entre clientes.
+ * 
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
+ * @version 1.0
+ */
 public class ServicioTransferencias {
     private Map<String, Cliente> clientes;
     
@@ -51,5 +58,17 @@ public class ServicioTransferencias {
     
     public Map<String, Cliente> getClientes() {
         return clientes;
+    }
+
+    /**
+     * Realiza una transferencia entre dos clientes.
+     * 
+     * @param origen Cliente que envía el dinero
+     * @param destino Cliente que recibe el dinero
+     * @param cantidad Monto a transferir
+     * @return true si la transferencia se realizó con éxito, false en caso contrario
+     */
+    public boolean realizarTransferencia(Cliente origen, Cliente destino, double cantidad) {
+        // ... method implementation ...
     }
 } 
