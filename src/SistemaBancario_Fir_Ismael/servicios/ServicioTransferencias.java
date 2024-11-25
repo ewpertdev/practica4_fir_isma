@@ -2,6 +2,8 @@ package SistemaBancario_Fir_Ismael.servicios;
 
 import SistemaBancario_Fir_Ismael.modelo.Cliente;
 import SistemaBancario_Fir_Ismael.modelo.Transferencia;
+import SistemaBancario_Fir_Ismael.servicios.GestorJSON;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -9,9 +11,11 @@ import java.util.Map;
 
 public class ServicioTransferencias {
     private Map<String, Cliente> clientes;
+    private final GestorJSON gestorJSON;
     
     public ServicioTransferencias() {
         this.clientes = new HashMap<>();
+        this.gestorJSON = new GestorJSON();
     }
     
     public void cargarClientes() throws IOException {
