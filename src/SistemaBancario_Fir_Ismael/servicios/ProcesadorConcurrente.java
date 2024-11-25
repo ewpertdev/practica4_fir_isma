@@ -4,6 +4,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Clase que maneja el procesamiento concurrente de transferencias bancarias.
@@ -32,9 +37,12 @@ public class ProcesadorConcurrente {
     public void procesarArchivosConcurrentemente(String[] archivos) {
         System.out.println("Iniciando procesamiento concurrente con " + NUM_HILOS + " hilos");
         
+        // Crear una lista para almacenar las tareas futuras
+        List<Future<?>> tareas = new ArrayList<>();
+        
         // Enviar cada archivo como una tarea al pool de hilos
         for (String archivo : archivos) {
-            executorService.submit(() -> {
+            Future<?> tarea = executorService.submit(() -> {
                 try {
                     System.out.println("Hilo " + Thread.currentThread().getName() + 
                                      " procesando archivo: " + archivo);
@@ -44,28 +52,43 @@ public class ProcesadorConcurrente {
                                      " al procesar archivo " + archivo + ": " + e.getMessage());
                 }
             });
+            tareas.add(tarea);
         }
 
         // Esperar a que terminen todas las tareas
-        cerrarYEsperar();
+        cerrarYEsperar(tareas);
     }
 
     /**
      * Cierra el pool de hilos y espera a que terminen todas las tareas.
+     * @param tareas Lista de tareas futuras a esperar
      */
-    private void cerrarYEsperar() {
-        executorService.shutdown();
+    private void cerrarYEsperar(List<Future<?>> tareas) {
         try {
-            // Esperar hasta 1 minuto para que terminen todas las tareas
-            if (!executorService.awaitTermination(1, TimeUnit.MINUTES)) {
-                System.err.println("Tiempo de espera agotado. Forzando cierre...");
-                executorService.shutdownNow();
+            // Esperar a que cada tarea termine
+            for (Future<?> tarea : tareas) {
+                try {
+                    tarea.get(30, TimeUnit.SECONDS); // Timeout por tarea
+                } catch (TimeoutException e) {
+                    System.err.println("Tarea excedió el tiempo límite");
+                    tarea.cancel(true);
+                }
             }
-            System.out.println("Procesamiento concurrente completado");
+            
+            // Cerrar el pool de hilos
+            executorService.shutdown();
+            if (!executorService.awaitTermination(10, TimeUnit.SECONDS)) {
+                System.err.println("Algunas tareas no terminaron. Forzando cierre...");
+                executorService.shutdownNow();
+            } else {
+                System.out.println("Procesamiento concurrente completado exitosamente");
+            }
         } catch (InterruptedException e) {
             System.err.println("Procesamiento interrumpido");
             executorService.shutdownNow();
             Thread.currentThread().interrupt();
+        } catch (ExecutionException e) {
+            System.err.println("Error durante la ejecución: " + e.getCause().getMessage());
         }
     }
 } 

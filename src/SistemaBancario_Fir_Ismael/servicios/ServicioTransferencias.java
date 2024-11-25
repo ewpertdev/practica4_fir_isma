@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Servicio que gestiona las transferencias entre clientes del sistema bancario.
@@ -15,6 +16,8 @@ import java.util.Map;
 public class ServicioTransferencias {
     /** Mapa que almacena los clientes por su ID */
     private Map<String, Cliente> clientes;
+    
+    private final AtomicInteger transferenciasProcesadas = new AtomicInteger(0);
     
     /**
      * Constructor que inicializa el mapa de clientes.
@@ -66,8 +69,9 @@ public class ServicioTransferencias {
      */
     public void procesarArchivoTransferencias(String rutaArchivo) throws IOException {
         List<Transferencia> transferencias = GestorJSON.leerTransferencias(rutaArchivo);
-        for (Transferencia transferencia : transferencias) {
-            procesarTransferencia(transferencia);
+        for (Transferencia t : transferencias) {
+            procesarTransferencia(t);
+            transferenciasProcesadas.incrementAndGet();
         }
     }
     
@@ -77,5 +81,9 @@ public class ServicioTransferencias {
      */
     public Map<String, Cliente> getClientes() {
         return clientes;
+    }
+    
+    public int getTransferenciasProcesadas() {
+        return transferenciasProcesadas.get();
     }
 } 

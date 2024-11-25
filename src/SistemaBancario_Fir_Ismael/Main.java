@@ -43,6 +43,11 @@ public class Main {
             // Procesar archivos concurrentemente
             procesadorConcurrente.procesarArchivosConcurrentemente(archivosTransferencias);
             
+            // Mostrar estadísticas
+            System.out.println("\nEstadísticas:");
+            System.out.println("Total de transferencias procesadas: " + 
+                servicioTransferencias.getTransferenciasProcesadas());
+            
             // Mostrar estado final
             System.out.println("\nEstado final de los clientes:");
             servicioTransferencias.getClientes().values().forEach(System.out::println);
