@@ -1,6 +1,7 @@
 package SistemaBancario_Fir_Ismael.servicios;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import SistemaBancario_Fir_Ismael.modelo.Cliente;
 import SistemaBancario_Fir_Ismael.modelo.Transferencia;
 import java.io.File;
@@ -16,8 +17,8 @@ public class GestorJSON {
 
     public static List<Transferencia> leerTransferencias(String rutaArchivo) throws IOException {
         return mapper.readValue(
-            new File(rutaArchivo),
-            mapper.getTypeFactory().constructCollectionType(List.class, Transferencia.class)
+            new File(rutaArchivo), 
+            new TypeReference<List<Transferencia>>() {}
         );
     }
 } 
