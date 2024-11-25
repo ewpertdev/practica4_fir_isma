@@ -41,4 +41,32 @@ public class Cliente {
         return String.format("Cliente{id='%s', nombre='%s', saldo=%.2f, numeroCuenta='%s', direccion='%s'}", 
                            id, nombre, saldo, numeroCuenta, direccion);
     }
+
+    public synchronized boolean realizarTransferencia(Cliente destino, double monto) {
+        // Validar que el monto sea positivo
+        if (monto <= 0) {
+            System.out.println("Error: El monto debe ser positivo");
+            return false;
+        }
+
+        // Validar que haya saldo suficiente
+        if (this.saldo < monto) {
+            System.out.println("Error: Saldo insuficiente para la transferencia de " + 
+                             this.id + " a " + destino.getId() + 
+                             " por " + String.format("%.2f€", monto));
+            return false;
+        }
+
+        // Realizar la transferencia
+        this.saldo -= monto;
+        destino.recibirTransferencia(monto);
+        
+        System.out.println("Transferencia realizada: " + this.id + " -> " + 
+                          destino.getId() + ": " + String.format("%.2f€", monto));
+        return true;
+    }
+
+    private synchronized void recibirTransferencia(double monto) {
+        this.saldo += monto;
+    }
 } 
