@@ -130,70 +130,52 @@ El proyecto está organizado en las siguientes clases principales:
   - Casillas vacías (.): No tienen efecto
   - Jugadores (P): Indica la posición actual de un jugador
 
- # Sistema Bancario
+# Sistema Bancario - Procesamiento Concurrente de Transferencias
 
 ## Descripción
-Sistema bancario desarrollado en Java que permite gestionar clientes y procesar transferencias bancarias mediante archivos JSON. El sistema procesa las transferencias de forma secuencial y mantiene la consistencia de los datos mediante sincronización.
+Sistema bancario que procesa transferencias entre cuentas de clientes de forma concurrente, utilizando archivos JSON como fuente de datos. El sistema implementa sincronización thread-safe y procesamiento paralelo de transferencias.
 
-## Estructura del Código
+## Estructura del Proyecto
+```
+src/SistemaBancario_Fir_Ismael/
+├── Main.java # Punto de entrada
+├── modelo/
+│ ├── Cliente.java # Entidad Cliente
+│ └── Transferencia.java # Entidad Transferencia
+└── servicios/
+├── GestorJSON.java # Manejo de archivos JSON
+├── ServicioTransferencias.java # Lógica de negocio
+└── ProcesadorConcurrente.java # Gestión de concurrencia
+```
 
-### Clases Principales
+## Características Implementadas
 
-#### Cliente (`Cliente.java`)
-- Representa un cliente bancario con:
-  - ID único
-  - Nombre
-  - Saldo
-  - Número de cuenta
-  - Dirección
-- Métodos sincronizados para operaciones monetarias:
-  - `realizarTransferencia()`: Ejecuta transferencias salientes
-  - `recibirTransferencia()`: Procesa transferencias entrantes
-  - `getSaldo()` y `setSaldo()`: Acceso thread-safe al saldo
+### Procesamiento Concurrente
+- Pool de 3 hilos para procesamiento paralelo
+- Control de ciclo de vida de hilos
+- Timeout de 1 minuto para operaciones
+- Logging detallado de operaciones concurrentes
 
-#### Transferencia (`Transferencia.java`) 
-- Modela una transferencia bancaria con:
-  - Cliente origen
-  - Cliente destino  
-  - Monto a transferir
-- Utiliza anotaciones Jackson para mapeo JSON
+### Gestión de Datos
+- Lectura de archivos JSON de clientes y transferencias
+- Validación de operaciones bancarias
+- Sincronización de operaciones monetarias
+- Manejo de errores y excepciones
 
-#### GestorJSON (`GestorJSON.java`)
-- Gestiona la lectura de archivos JSON
-- Métodos principales:
-  - `leerCliente()`: Deserializa datos de cliente
-  - `leerTransferencias()`: Deserializa lista de transferencias
+### Seguridad y Sincronización
+- Métodos críticos sincronizados
+- Acceso thread-safe a saldos
+- Control de condiciones de carrera
+- Validación de transferencias
 
-#### ServicioTransferencias (`ServicioTransferencias.java`)
-- Coordina las operaciones bancarias
-- Funcionalidades:
-  - Mantiene registro de clientes activos
-  - Carga clientes desde JSON
-  - Procesa transferencias individuales y por lotes
+## Requisitos
+- Java 8 o superior
+- Biblioteca Jackson para JSON
+- IDE compatible con Java (Eclipse recomendado)
 
-## Funcionamiento Actual
-
-### 1. Carga de Datos
-- Lee 6 archivos de clientes (Cliente1.json a Cliente6.json)
-- Almacena clientes en un Map<String, Cliente>
-
-### 2. Procesamiento de Transferencias
-- Lee 5 archivos de transferencias secuencialmente
-- Por cada transferencia:
-  1. Valida existencia de clientes
-  2. Verifica saldo suficiente
-  3. Ejecuta la transferencia si es válida
-  4. Muestra resultado por consola
-
-### 3. Validaciones Implementadas
-- Monto positivo
-- Saldo suficiente
-- Existencia de clientes origen y destino
-
-## Formato de Archivos
+## Configuración de Archivos
 
 ### Cliente (data/ClienteX.json)
-
 ```json
 {
 "id": "1",
@@ -205,7 +187,6 @@ Sistema bancario desarrollado en Java que permite gestionar clientes y procesar 
 ```
 
 ### Transferencias (data/TransferenciasX.json)
-
 ```json
 [
 {
@@ -216,53 +197,69 @@ Sistema bancario desarrollado en Java que permite gestionar clientes y procesar 
 ]
 ```
 
+## Uso del Sistema
 
-## Requisitos
-- Java 8 o superior
-- Biblioteca Jackson para JSON
-- Archivos JSON en directorio data/
+1. **Preparación**
+   - Colocar archivos de clientes en `data/Cliente[1-6].json`
+   - Colocar archivos de transferencias en `data/Transferencias*.json`
 
-## Uso
+2. **Monitoreo**
+   - El sistema mostrará mensajes de:
+     - Carga de clientes
+     - Procesamiento de transferencias por hilo
+     - Estado final de las cuentas
 
-1. Preparar archivos JSON:
-   - 6 archivos de clientes en data/Cliente[1-6].json
-   - Archivos de transferencias en data/
+## Detalles de Implementación
 
-2. Ejecutar la clase Main
+### Concurrencia (`ProcesadorConcurrente.java`)
+- Utiliza `ExecutorService` con pool fijo de hilos
+- Procesa múltiples archivos simultáneamente
+- Maneja timeout y cierre ordenado
+- Proporciona logging detallado
+
+### Sincronización (`Cliente.java`)
+```
+java
+public synchronized boolean realizarTransferencia(Cliente destino, double monto)
+public synchronized void setSaldo(double saldo)
+public synchronized double getSaldo()
+```
+
+
+### Gestión JSON (`GestorJSON.java`)
+- Deserialización de clientes y transferencias
+- Manejo de errores de parseo
+- Utiliza Jackson ObjectMapper
 
 ## Mensajes del Sistema
 
 ### Éxito
 ```
-Cliente cargado: Cliente{id='1', nombre='Juan', saldo=1000.00...}
+Hilo pool-1-thread-1 procesando archivo: data/Transferencias1.json
 Transferencia realizada: 1 -> 2: 100.00€
 ```
 
 ### Errores
-
 ```
 Error: Saldo insuficiente para la transferencia
-Error: El monto debe ser positivo
-Error: Cliente no encontrado
+Error en hilo pool-1-thread-2: Archivo no encontrado
 ```
 
-## Características de Seguridad
+## Validaciones Implementadas
+1. Saldo suficiente para transferencia
+2. Monto positivo
+3. Existencia de clientes origen y destino
+4. Timeout en operaciones concurrentes
 
-### Sincronización
-- Métodos críticos marcados como `synchronized`:
-  - Operaciones de saldo
-  - Transferencias
-  - Recepciones de dinero
+## Autores
+- Mohd Firdaus Bin Abdullah
+- Ismael Lozano
 
-### Validaciones
-- Montos positivos
-- Saldos suficientes
-- Existencia de clientes
-
-## Limitaciones Actuales
-1. Procesamiento secuencial (no concurrente)
-2. No persiste cambios en archivos JSON
-3. Rutas de archivos hardcodeadas
+## Notas de Desarrollo
+- Implementación basada en principios SOLID
+- Código documentado con JavaDoc
+- Manejo completo de excepciones
+- Logging detallado de operaciones
  
 ## Autores
 - Mohd Firdaus Bin Abdullah
