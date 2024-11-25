@@ -3,6 +3,7 @@ package SistemaBancario_Fir_Ismael.servicios;
 import SistemaBancario_Fir_Ismael.modelo.Cliente;
 import SistemaBancario_Fir_Ismael.modelo.Transferencia;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,10 @@ public class ServicioTransferencias {
     private Map<String, Cliente> clientes;
     
     private final AtomicInteger transferenciasProcesadas = new AtomicInteger(0);
+    private final AtomicInteger transferenciasExitosas = new AtomicInteger(0);
+    private final AtomicInteger transferenciasFallidas = new AtomicInteger(0);
+    
+    private static final DecimalFormat df = new DecimalFormat("#,##0.00€");
     
     /**
      * Constructor que inicializa el mapa de clientes.
@@ -48,17 +53,20 @@ public class ServicioTransferencias {
      * Procesa una transferencia individual entre dos clientes.
      * @param transferencia La transferencia a procesar
      */
-    public void procesarTransferencia(Transferencia transferencia) {
-        Cliente origen = clientes.get(transferencia.getOrigen());
-        Cliente destino = clientes.get(transferencia.getDestino());
-        
-        if (origen == null || destino == null) {
-            System.out.println("Error: Cliente no encontrado");
-            return;
-        }
-
-        if (!origen.realizarTransferencia(destino, transferencia.getMonto())) {
-            System.out.println("La transferencia no pudo ser procesada");
+    public void procesarTransferencia(Transferencia t) {
+        try {
+            Cliente origen = clientes.get(t.getOrigen());
+            Cliente destino = clientes.get(t.getDestino());
+            
+            if (origen.realizarTransferencia(destino, t.getMonto())) {
+                System.out.printf("✅ Transferencia: %s → %s: %s%n", 
+                    origen.getId(), destino.getId(), df.format(t.getMonto()));
+                transferenciasExitosas.incrementAndGet();
+            }
+        } catch (Exception e) {
+            System.out.printf("❌ Error: %s → %s: %s (%s)%n",
+                t.getOrigen(), t.getDestino(), df.format(t.getMonto()), e.getMessage());
+            transferenciasFallidas.incrementAndGet();
         }
     }
     

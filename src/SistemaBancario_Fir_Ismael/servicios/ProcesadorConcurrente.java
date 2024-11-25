@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Clase que maneja el procesamiento concurrente de transferencias bancarias.
@@ -20,6 +21,8 @@ public class ProcesadorConcurrente {
     private final ExecutorService executorService;
     private final ServicioTransferencias servicioTransferencias;
     private static final int NUM_HILOS = 3; // Número de hilos en el pool
+    private final AtomicInteger transferenciasExitosas = new AtomicInteger(0);
+    private final AtomicInteger transferenciasFallidas = new AtomicInteger(0);
 
     /**
      * Constructor que inicializa el pool de hilos y el servicio de transferencias.
@@ -35,7 +38,10 @@ public class ProcesadorConcurrente {
      * @param archivos Array con las rutas de los archivos a procesar
      */
     public void procesarArchivosConcurrentemente(String[] archivos) {
-        System.out.println("Iniciando procesamiento concurrente con " + NUM_HILOS + " hilos");
+        System.out.println("\n=== Inicio de Procesamiento Concurrente ===");
+        System.out.println("Hilos activos: " + NUM_HILOS);
+        System.out.println("Archivos a procesar: " + archivos.length);
+        System.out.println("=====================================\n");
         
         // Crear una lista para almacenar las tareas futuras
         List<Future<?>> tareas = new ArrayList<>();
@@ -57,6 +63,8 @@ public class ProcesadorConcurrente {
 
         // Esperar a que terminen todas las tareas
         cerrarYEsperar(tareas);
+        
+        mostrarResumen();
     }
 
     /**
@@ -90,5 +98,14 @@ public class ProcesadorConcurrente {
         } catch (ExecutionException e) {
             System.err.println("Error durante la ejecución: " + e.getCause().getMessage());
         }
+    }
+
+    private void mostrarResumen() {
+        System.out.println("\n=== Resumen de Operaciones ===");
+        System.out.println("Transferencias exitosas: " + transferenciasExitosas.get());
+        System.out.println("Transferencias fallidas: " + transferenciasFallidas.get());
+        System.out.println("Total procesadas: " + 
+            (transferenciasExitosas.get() + transferenciasFallidas.get()));
+        System.out.println("============================\n");
     }
 } 
