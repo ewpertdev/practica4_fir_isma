@@ -129,6 +129,136 @@ El proyecto está organizado en las siguientes clases principales:
   - Minas (M): Al encontrarlas, el jugador pierde
   - Casillas vacías (.): No tienen efecto
   - Jugadores (P): Indica la posición actual de un jugador
+ 
+# Sistema Bancario - Documentación Técnica
+
+## Descripción General
+Este sistema simula operaciones bancarias básicas, específicamente centrado en transferencias entre cuentas de clientes. El sistema está diseñado para manejar múltiples transferencias de forma segura y concurrente.
+
+## ¿Cómo Funciona?
+
+### 1. Estructura de Datos Principal
+
+#### Cliente (`Cliente.java`)
+- Representa un cliente bancario con:
+  - ID único
+  - Nombre
+  - Saldo actual
+  - Número de cuenta
+  - Dirección
+- Incluye métodos sincronizados para garantizar operaciones thread-safe:
+  - `realizarTransferencia()`: Verifica y ejecuta transferencias
+  - `recibirTransferencia()`: Actualiza el saldo del destinatario
+
+#### Transferencia (`Transferencia.java`)
+- Representa una operación de transferencia con:
+  - ID del cliente origen
+  - ID del cliente destino
+  - Monto a transferir
+
+### 2. Gestión de Datos
+
+#### GestorJSON (`GestorJSON.java`)
+- Maneja la lectura de archivos JSON
+- Utiliza Jackson para deserialización
+- Métodos principales:
+  - `leerCliente()`: Lee datos de un cliente desde JSON
+  - `leerTransferencias()`: Lee lista de transferencias desde JSON
+
+### 3. Lógica de Negocio
+
+#### ServicioTransferencias (`ServicioTransferencias.java`)
+- Coordina todas las operaciones bancarias
+- Mantiene un mapa de clientes activos
+- Funciones principales:
+  - `cargarClientes()`: Carga 6 clientes desde archivos JSON
+  - `procesarTransferencia()`: Ejecuta una transferencia individual
+  - `procesarArchivoTransferencias()`: Procesa múltiples transferencias
+
+### 4. Punto de Entrada
+
+#### Main (`Main.java`)
+- Inicia el sistema
+- Proceso de ejecución:
+  1. Crea una instancia de `ServicioTransferencias`
+  2. Carga los clientes
+  3. Procesa múltiples archivos de transferencias
+  4. Muestra el estado final de todos los clientes
+
+## Flujo de una Transferencia
+
+1. **Inicio**
+   - El sistema lee un archivo de transferencias
+
+2. **Validación**
+   - Verifica que existan tanto el origen como el destino
+   - Comprueba que el monto sea positivo
+   - Confirma que haya saldo suficiente
+
+3. **Ejecución**
+   - Resta el monto de la cuenta origen
+   - Suma el monto a la cuenta destino
+   - Todo el proceso es sincronizado para evitar condiciones de carrera
+
+4. **Registro**
+   - Muestra mensajes de éxito o error
+   - Actualiza los saldos en memoria
+
+## Características de Seguridad
+
+1. **Sincronización**
+   - Métodos críticos marcados como `synchronized`
+   - Previene problemas de concurrencia en transferencias
+
+2. **Validaciones**
+   - Montos positivos
+   - Saldo suficiente
+   - Existencia de clientes
+
+3. **Manejo de Errores**
+   - Captura y manejo de excepciones IO
+   - Mensajes de error descriptivos
+
+## Ejemplo de Uso
+
+1. **Preparar Archivos JSON**
+   ```json
+   // Cliente1.json
+   {
+       "id": "1",
+       "nombre": "Juan Pérez",
+       "saldo": 1000.00,
+       "numeroCuenta": "ES1234567890",
+       "direccion": "Calle Principal 123"
+   }
+
+   // Transferencias1.json
+   [
+       {
+           "origen": "1",
+           "destino": "2",
+           "monto": 100.00
+       }
+   ]
+   ```
+
+2. **Ejecutar el Sistema**
+   - El sistema procesará automáticamente:
+     - 6 archivos de clientes
+     - 5 archivos de transferencias
+   - Mostrará el resultado de cada operación
+   - Presentará el estado final de todas las cuentas
+
+## Consideraciones Técnicas
+
+- Utiliza Jackson para procesamiento JSON
+- Implementa patrones de diseño:
+  - Singleton (GestorJSON)
+  - Service Layer (ServicioTransferencias)
+- Manejo thread-safe de operaciones monetarias
+- Documentación JavaDoc completa
+
+
 
 ## Autores
 - Mohd Firdaus Bin Abdullah
