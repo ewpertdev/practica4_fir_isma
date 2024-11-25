@@ -3,6 +3,11 @@ package SistemaBancario_Fir_Ismael.modelo;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Clase que representa una transferencia entre dos clientes.
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
+ */
 public class Transferencia {
     private String origen;
     private String destino;

@@ -4,6 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonAlias;
 
+/**
+ * Clase que representa un cliente del sistema bancario.
+ * @author Mohd Firdaus Bin Abdullah
+ * @author Ismael Lozano
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Cliente {
     private String id;
@@ -42,6 +47,12 @@ public class Cliente {
                            id, nombre, saldo, numeroCuenta, direccion);
     }
 
+    /**
+     * Realiza una transferencia a otro cliente.
+     * @param destino Cliente que recibirá la transferencia
+     * @param monto Cantidad a transferir
+     * @return true si la transferencia se realizó con éxito, false en caso contrario
+     */
     public synchronized boolean realizarTransferencia(Cliente destino, double monto) {
         // Validar que el monto sea positivo
         if (monto <= 0) {
@@ -66,6 +77,10 @@ public class Cliente {
         return true;
     }
 
+    /**
+     * Método privado para recibir una transferencia.
+     * @param monto Cantidad recibida
+     */
     private synchronized void recibirTransferencia(double monto) {
         this.saldo += monto;
     }
