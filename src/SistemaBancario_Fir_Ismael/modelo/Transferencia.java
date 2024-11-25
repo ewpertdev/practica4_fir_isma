@@ -1,27 +1,30 @@
 package SistemaBancario_Fir_Ismael.modelo;
 
-public class Transferencia {
-    private String origen;
-    private String destino;
-    private double monto;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    // Constructor
-    public Transferencia(String origen, String destino, double monto) {
+public class Transferencia {
+    private final String origen;
+    private final String destino;
+    private final double monto;
+
+    @JsonCreator
+    public Transferencia(
+        @JsonProperty("origen") String origen,
+        @JsonProperty("destino") String destino,
+        @JsonProperty("monto") double monto) {
         this.origen = origen;
         this.destino = destino;
         this.monto = monto;
     }
 
-    // Getters
-    public String getOrigen() {
-        return origen;
-    }
+    public String getOrigen() { return origen; }
+    public String getDestino() { return destino; }
+    public double getMonto() { return monto; }
 
-    public String getDestino() {
-        return destino;
-    }
-
-    public double getMonto() {
-        return monto;
+    @Override
+    public String toString() {
+        return String.format("Transferencia{%s -> %s: %.2f}", 
+                           origen, destino, monto);
     }
 } 
