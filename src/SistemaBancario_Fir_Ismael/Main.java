@@ -9,18 +9,27 @@ public class Main {
             ServicioTransferencias servicio = new ServicioTransferencias();
             servicio.cargarClientes();
             
+            // Nombres conocidos de archivos de transferencias
+            String[] archivosTransferencias = {
+                "data/Transferencias1.json",
+                "data/transferencias10.json",
+                "data/transferencias5.json",
+                "data/transferencias6.json",
+                "data/transferencias7.json"
+            };
+            
             // Procesar cada archivo de transferencias
-            for (int i = 1; i <= 10; i++) {
-                String archivo = "data/transferencias" + i + ".json";
+            for (String archivo : archivosTransferencias) {
                 try {
+                    System.out.println("\nProcesando archivo: " + archivo);
                     servicio.procesarArchivoTransferencias(archivo);
                 } catch (IOException e) {
-                    System.out.println("No se pudo procesar el archivo: " + archivo);
+                    System.err.println("Error al procesar archivo " + archivo + ": " + e.getMessage());
                 }
             }
             
-            // Imprimir resultados finales
-            System.out.println("Estado final de los clientes:");
+            // Mostrar estado final
+            System.out.println("\nEstado final de los clientes:");
             servicio.getClientes().values().forEach(System.out::println);
             
         } catch (IOException e) {
