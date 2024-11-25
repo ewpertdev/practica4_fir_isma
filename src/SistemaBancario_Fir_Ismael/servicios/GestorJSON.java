@@ -30,7 +30,11 @@ public class GestorJSON {
         if (!file.exists()) {
             throw new IOException("El archivo no existe: " + rutaArchivo);
         }
-        return mapper.readValue(file, 
-            mapper.getTypeFactory().constructCollectionType(List.class, Transferencia.class));
+        try {
+            return mapper.readValue(file, new TypeReference<List<Transferencia>>() {});
+        } catch (IOException e) {
+            System.err.println("Error al leer archivo " + rutaArchivo + ": " + e.getMessage());
+            throw e;
+        }
     }
 } 
