@@ -32,10 +32,19 @@ public class ServicioTransferencias {
         Cliente origen = clientes.get(transferencia.getOrigen());
         Cliente destino = clientes.get(transferencia.getDestino());
         
-        if (origen != null && destino != null) {
-            double monto = transferencia.getMonto();
-            origen.setSaldo(origen.getSaldo() - monto);
-            destino.setSaldo(destino.getSaldo() + monto);
+        if (origen == null || destino == null) {
+            System.err.println("Error: Cliente no encontrado en transferencia " + transferencia);
+            return;
+        }
+        
+        double monto = transferencia.getMonto();
+        synchronized (origen) {
+            synchronized (destino) {
+                origen.setSaldo(origen.getSaldo() - monto);
+                destino.setSaldo(destino.getSaldo() + monto);
+                System.out.printf("Transferencia realizada: %s -> %s: %.2f€%n", 
+                    origen.getId(), destino.getId(), monto);
+            }
         }
     }
     
