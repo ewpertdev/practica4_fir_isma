@@ -4,10 +4,14 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Transferencia {
-    private final String origen;
-    private final String destino;
-    private final double monto;
+    private String origen;
+    private String destino;
+    private double monto;
 
+    // Constructor por defecto para Jackson
+    public Transferencia() {}
+
+    // Constructor con parámetros
     @JsonCreator
     public Transferencia(
         @JsonProperty("origen") String origen,
@@ -18,9 +22,20 @@ public class Transferencia {
         this.monto = monto;
     }
 
+    // Getters
+    @JsonProperty("origen")
     public String getOrigen() { return origen; }
+
+    @JsonProperty("destino")
     public String getDestino() { return destino; }
+
+    @JsonProperty("monto")
     public double getMonto() { return monto; }
+
+    // Setters para el constructor por defecto
+    public void setOrigen(String origen) { this.origen = origen; }
+    public void setDestino(String destino) { this.destino = destino; }
+    public void setMonto(double monto) { this.monto = monto; }
 
     @Override
     public String toString() {
