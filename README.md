@@ -171,7 +171,6 @@ src/SistemaBancario_Fir_Ismael/
 ## Requisitos
 - Java 8 o superior
 - Biblioteca Jackson para JSON
-- IDE compatible con Java (Eclipse recomendado)
 
 ## Configuración de Archivos
 
