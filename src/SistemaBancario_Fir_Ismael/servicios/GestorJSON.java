@@ -10,12 +10,19 @@ import java.util.List;
 
 /**
  * Clase utilitaria para gestionar la lectura de archivos JSON.
+ * Proporciona métodos estáticos para la deserialización de objetos.
  * @author Mohd Firdaus Bin Abdullah
  * @author Ismael Lozano
  */
 public class GestorJSON {
     /** Mapper de Jackson para la serialización/deserialización JSON */
     private static final ObjectMapper mapper = new ObjectMapper();
+
+    /**
+     * Constructor privado para evitar instanciación.
+     * Esta clase solo contiene métodos estáticos.
+     */
+    private GestorJSON() {}
 
     /**
      * Lee un cliente desde un archivo JSON.

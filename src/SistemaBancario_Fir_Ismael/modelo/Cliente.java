@@ -17,28 +17,75 @@ public class Cliente {
     private String numeroCuenta;
     private String direccion;
 
-    // Constructor por defecto para Jackson
+    /**
+     * Constructor por defecto necesario para Jackson.
+     */
     public Cliente() {}
 
+    /**
+     * Obtiene el ID del cliente.
+     * @return ID único del cliente
+     */
     @JsonProperty("id")
     public String getId() { return id; }
+
+    /**
+     * Establece el ID del cliente.
+     * @param id ID único del cliente
+     */
     public void setId(String id) { this.id = id; }
     
+    /**
+     * Obtiene el nombre del cliente.
+     * @return Nombre del cliente
+     */
     @JsonProperty("nombre")
     @JsonAlias({"Nombre"})
     public String getNombre() { return nombre; }
+
+    /**
+     * Establece el nombre del cliente.
+     * @param nombre Nombre completo del cliente
+     */
     public void setNombre(String nombre) { this.nombre = nombre; }
     
+    /**
+     * Obtiene el saldo actual de la cuenta.
+     * @return Saldo actual
+     */
     @JsonProperty("saldo")
     public synchronized double getSaldo() { return saldo; }
+
+    /**
+     * Establece el saldo de la cuenta del cliente.
+     * @param saldo Nuevo saldo de la cuenta
+     */
     public synchronized void setSaldo(double saldo) { this.saldo = saldo; }
     
+    /**
+     * Obtiene el número de cuenta del cliente.
+     * @return Número de cuenta bancaria
+     */
     @JsonProperty("numeroCuenta")
     public String getNumeroCuenta() { return numeroCuenta; }
+
+    /**
+     * Establece el número de cuenta del cliente.
+     * @param numeroCuenta Nuevo número de cuenta bancaria
+     */
     public void setNumeroCuenta(String numeroCuenta) { this.numeroCuenta = numeroCuenta; }
     
+    /**
+     * Obtiene la dirección del cliente.
+     * @return Dirección postal del cliente
+     */
     @JsonProperty("direccion")
     public String getDireccion() { return direccion; }
+
+    /**
+     * Establece la dirección postal del cliente.
+     * @param direccion Nueva dirección postal del cliente
+     */
     public void setDireccion(String direccion) { this.direccion = direccion; }
     
     @Override

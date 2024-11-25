@@ -5,10 +5,17 @@ import java.io.IOException;
 
 /**
  * Clase principal que ejecuta el sistema bancario.
+ * Gestiona la carga de clientes y el procesamiento de transferencias.
  * @author Mohd Firdaus Bin Abdullah
  * @author Ismael Lozano
  */
 public class Main {
+    /**
+     * Constructor privado para evitar instanciación.
+     * Esta clase solo contiene métodos estáticos.
+     */
+    private Main() {}
+
     /**
      * Método principal que inicia la aplicación.
      * @param args Argumentos de línea de comandos (no utilizados)
