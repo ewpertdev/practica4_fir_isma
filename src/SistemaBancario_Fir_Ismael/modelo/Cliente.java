@@ -24,9 +24,17 @@ public class Cliente {
     public synchronized double getSaldo() { return saldo; }
     public synchronized void setSaldo(double saldo) { this.saldo = saldo; }
     
+    @JsonProperty("numeroCuenta")
+    public String getNumeroCuenta() { return numeroCuenta; }
+    public void setNumeroCuenta(String numeroCuenta) { this.numeroCuenta = numeroCuenta; }
+    
+    @JsonProperty("direccion")
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
+    
     @Override
     public String toString() {
-        return String.format("Cliente{id='%s', nombre='%s', saldo=%.2f}", 
-                           id, nombre, saldo);
+        return String.format("Cliente{id='%s', nombre='%s', saldo=%.2f, numeroCuenta='%s', direccion='%s'}", 
+                           id, nombre, saldo, numeroCuenta, direccion);
     }
 } 
