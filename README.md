@@ -129,137 +129,141 @@ El proyecto está organizado en las siguientes clases principales:
   - Minas (M): Al encontrarlas, el jugador pierde
   - Casillas vacías (.): No tienen efecto
   - Jugadores (P): Indica la posición actual de un jugador
- 
-# Sistema Bancario - Documentación Técnica
 
-## Descripción General
-Este sistema simula operaciones bancarias básicas, específicamente centrado en transferencias entre cuentas de clientes. El sistema está diseñado para manejar múltiples transferencias de forma segura y concurrente.
+ # Sistema Bancario
 
-## ¿Cómo Funciona?
+## Descripción
+Sistema bancario desarrollado en Java que permite gestionar clientes y procesar transferencias bancarias mediante archivos JSON. El sistema procesa las transferencias de forma secuencial y mantiene la consistencia de los datos mediante sincronización.
 
-### 1. Estructura de Datos Principal
+## Estructura del Código
+
+### Clases Principales
 
 #### Cliente (`Cliente.java`)
 - Representa un cliente bancario con:
   - ID único
   - Nombre
-  - Saldo actual
+  - Saldo
   - Número de cuenta
   - Dirección
-- Incluye métodos sincronizados para garantizar operaciones thread-safe:
-  - `realizarTransferencia()`: Verifica y ejecuta transferencias
-  - `recibirTransferencia()`: Actualiza el saldo del destinatario
+- Métodos sincronizados para operaciones monetarias:
+  - `realizarTransferencia()`: Ejecuta transferencias salientes
+  - `recibirTransferencia()`: Procesa transferencias entrantes
+  - `getSaldo()` y `setSaldo()`: Acceso thread-safe al saldo
 
-#### Transferencia (`Transferencia.java`)
-- Representa una operación de transferencia con:
-  - ID del cliente origen
-  - ID del cliente destino
+#### Transferencia (`Transferencia.java`) 
+- Modela una transferencia bancaria con:
+  - Cliente origen
+  - Cliente destino  
   - Monto a transferir
-
-### 2. Gestión de Datos
+- Utiliza anotaciones Jackson para mapeo JSON
 
 #### GestorJSON (`GestorJSON.java`)
-- Maneja la lectura de archivos JSON
-- Utiliza Jackson para deserialización
+- Gestiona la lectura de archivos JSON
 - Métodos principales:
-  - `leerCliente()`: Lee datos de un cliente desde JSON
-  - `leerTransferencias()`: Lee lista de transferencias desde JSON
-
-### 3. Lógica de Negocio
+  - `leerCliente()`: Deserializa datos de cliente
+  - `leerTransferencias()`: Deserializa lista de transferencias
 
 #### ServicioTransferencias (`ServicioTransferencias.java`)
-- Coordina todas las operaciones bancarias
-- Mantiene un mapa de clientes activos
-- Funciones principales:
-  - `cargarClientes()`: Carga 6 clientes desde archivos JSON
-  - `procesarTransferencia()`: Ejecuta una transferencia individual
-  - `procesarArchivoTransferencias()`: Procesa múltiples transferencias
+- Coordina las operaciones bancarias
+- Funcionalidades:
+  - Mantiene registro de clientes activos
+  - Carga clientes desde JSON
+  - Procesa transferencias individuales y por lotes
 
-### 4. Punto de Entrada
+## Funcionamiento Actual
 
-#### Main (`Main.java`)
-- Inicia el sistema
-- Proceso de ejecución:
-  1. Crea una instancia de `ServicioTransferencias`
-  2. Carga los clientes
-  3. Procesa múltiples archivos de transferencias
-  4. Muestra el estado final de todos los clientes
+### 1. Carga de Datos
+- Lee 6 archivos de clientes (Cliente1.json a Cliente6.json)
+- Almacena clientes en un Map<String, Cliente>
 
-## Flujo de una Transferencia
+### 2. Procesamiento de Transferencias
+- Lee 5 archivos de transferencias secuencialmente
+- Por cada transferencia:
+  1. Valida existencia de clientes
+  2. Verifica saldo suficiente
+  3. Ejecuta la transferencia si es válida
+  4. Muestra resultado por consola
 
-1. **Inicio**
-   - El sistema lee un archivo de transferencias
+### 3. Validaciones Implementadas
+- Monto positivo
+- Saldo suficiente
+- Existencia de clientes origen y destino
 
-2. **Validación**
-   - Verifica que existan tanto el origen como el destino
-   - Comprueba que el monto sea positivo
-   - Confirma que haya saldo suficiente
+## Formato de Archivos
 
-3. **Ejecución**
-   - Resta el monto de la cuenta origen
-   - Suma el monto a la cuenta destino
-   - Todo el proceso es sincronizado para evitar condiciones de carrera
+### Cliente (data/ClienteX.json)
 
-4. **Registro**
-   - Muestra mensajes de éxito o error
-   - Actualiza los saldos en memoria
+```json
+{
+"id": "1",
+"nombre": "Nombre Cliente",
+"saldo": 1000.00,
+"numeroCuenta": "ES1234567890",
+"direccion": "Calle Example 123"
+}
+```
+
+### Transferencias (data/TransferenciasX.json)
+
+```json
+[
+{
+"origen": "1",
+"destino": "2",
+"monto": 100.00
+}
+]
+```
+
+
+## Requisitos
+- Java 8 o superior
+- Biblioteca Jackson para JSON
+- Archivos JSON en directorio data/
+
+## Uso
+
+1. Preparar archivos JSON:
+   - 6 archivos de clientes en data/Cliente[1-6].json
+   - Archivos de transferencias en data/
+
+2. Ejecutar la clase Main
+
+## Mensajes del Sistema
+
+### Éxito
+```
+Cliente cargado: Cliente{id='1', nombre='Juan', saldo=1000.00...}
+Transferencia realizada: 1 -> 2: 100.00€
+```
+
+### Errores
+
+```
+Error: Saldo insuficiente para la transferencia
+Error: El monto debe ser positivo
+Error: Cliente no encontrado
+```
 
 ## Características de Seguridad
 
-1. **Sincronización**
-   - Métodos críticos marcados como `synchronized`
-   - Previene problemas de concurrencia en transferencias
+### Sincronización
+- Métodos críticos marcados como `synchronized`:
+  - Operaciones de saldo
+  - Transferencias
+  - Recepciones de dinero
 
-2. **Validaciones**
-   - Montos positivos
-   - Saldo suficiente
-   - Existencia de clientes
+### Validaciones
+- Montos positivos
+- Saldos suficientes
+- Existencia de clientes
 
-3. **Manejo de Errores**
-   - Captura y manejo de excepciones IO
-   - Mensajes de error descriptivos
-
-## Ejemplo de Uso
-
-1. **Preparar Archivos JSON**
-   ```json
-   // Cliente1.json
-   {
-       "id": "1",
-       "nombre": "Juan Pérez",
-       "saldo": 1000.00,
-       "numeroCuenta": "ES1234567890",
-       "direccion": "Calle Principal 123"
-   }
-
-   // Transferencias1.json
-   [
-       {
-           "origen": "1",
-           "destino": "2",
-           "monto": 100.00
-       }
-   ]
-   ```
-
-2. **Ejecutar el Sistema**
-   - El sistema procesará automáticamente:
-     - 6 archivos de clientes
-     - 5 archivos de transferencias
-   - Mostrará el resultado de cada operación
-   - Presentará el estado final de todas las cuentas
-
-## Consideraciones Técnicas
-
-- Utiliza Jackson para procesamiento JSON
-- Implementa patrones de diseño:
-  - Singleton (GestorJSON)
-  - Service Layer (ServicioTransferencias)
-- Manejo thread-safe de operaciones monetarias
-- Documentación JavaDoc completa
-
-
-
+## Limitaciones Actuales
+1. Procesamiento secuencial (no concurrente)
+2. No persiste cambios en archivos JSON
+3. Rutas de archivos hardcodeadas
+ 
 ## Autores
 - Mohd Firdaus Bin Abdullah
 - Ismael Lozano
