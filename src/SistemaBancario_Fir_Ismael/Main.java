@@ -1,6 +1,7 @@
 package SistemaBancario_Fir_Ismael;
 
 import SistemaBancario_Fir_Ismael.servicios.ServicioTransferencias;
+import SistemaBancario_Fir_Ismael.servicios.ProcesadorConcurrente;
 import java.io.IOException;
 
 /**
@@ -22,10 +23,15 @@ public class Main {
      */
     public static void main(String[] args) {
         try {
-            ServicioTransferencias servicio = new ServicioTransferencias();
-            servicio.cargarClientes();
+            // Inicializar servicios
+            ServicioTransferencias servicioTransferencias = new ServicioTransferencias();
+            ProcesadorConcurrente procesadorConcurrente = 
+                new ProcesadorConcurrente(servicioTransferencias);
+
+            // Cargar clientes
+            servicioTransferencias.cargarClientes();
             
-            // Nombres conocidos de archivos de transferencias
+            // Definir archivos a procesar
             String[] archivosTransferencias = {
                 "data/Transferencias1.json",
                 "data/transferencias10.json",
@@ -34,22 +40,15 @@ public class Main {
                 "data/transferencias7.json"
             };
             
-            // Procesar cada archivo de transferencias
-            for (String archivo : archivosTransferencias) {
-                try {
-                    System.out.println("\nProcesando archivo: " + archivo);
-                    servicio.procesarArchivoTransferencias(archivo);
-                } catch (IOException e) {
-                    System.err.println("Error al procesar archivo " + archivo + ": " + e.getMessage());
-                }
-            }
+            // Procesar archivos concurrentemente
+            procesadorConcurrente.procesarArchivosConcurrentemente(archivosTransferencias);
             
             // Mostrar estado final
             System.out.println("\nEstado final de los clientes:");
-            servicio.getClientes().values().forEach(System.out::println);
+            servicioTransferencias.getClientes().values().forEach(System.out::println);
             
         } catch (IOException e) {
-            System.err.println("Error al cargar los clientes: " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
         }
     }
 }
