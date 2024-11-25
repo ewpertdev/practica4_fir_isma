@@ -250,16 +250,6 @@ Error en hilo pool-1-thread-2: Archivo no encontrado
 2. Monto positivo
 3. Existencia de clientes origen y destino
 4. Timeout en operaciones concurrentes
-
-## Autores
-- Mohd Firdaus Bin Abdullah
-- Ismael Lozano
-
-## Notas de Desarrollo
-- Implementación basada en principios SOLID
-- Código documentado con JavaDoc
-- Manejo completo de excepciones
-- Logging detallado de operaciones
  
 ## Autores
 - Mohd Firdaus Bin Abdullah
