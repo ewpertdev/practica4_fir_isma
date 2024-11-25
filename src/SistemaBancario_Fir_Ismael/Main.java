@@ -1,24 +1,30 @@
 package SistemaBancario_Fir_Ismael;
 
-import SistemaBancario_Fir_Ismael.servicios.GestorClientes;
+import SistemaBancario_Fir_Ismael.servicios.ServicioTransferencias;
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
         try {
-            GestorClientes gestor = new GestorClientes();
+            ServicioTransferencias servicio = new ServicioTransferencias();
+            servicio.cargarClientes();
             
-            // Cargar clientes
-            gestor.cargarClientes();
-            
-            // TODO: Procesar transferencias de forma concurrente
-            // Por ahora, solo mostramos los clientes cargados
-            for (int i = 1; i <= 6; i++) {
-                System.out.println(gestor.getCliente("Cliente" + i));
+            // Procesar cada archivo de transferencias
+            for (int i = 1; i <= 10; i++) {
+                String archivo = "data/transferencias" + i + ".json";
+                try {
+                    servicio.procesarArchivoTransferencias(archivo);
+                } catch (IOException e) {
+                    System.out.println("No se pudo procesar el archivo: " + archivo);
+                }
             }
             
+            // Imprimir resultados finales
+            System.out.println("Estado final de los clientes:");
+            servicio.getClientes().values().forEach(System.out::println);
+            
         } catch (IOException e) {
-            System.err.println("Error al procesar archivos: " + e.getMessage());
+            System.err.println("Error al cargar los clientes: " + e.getMessage());
         }
     }
 }
